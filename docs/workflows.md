@@ -81,25 +81,13 @@ To use these workflows, you'll need to set up the following secrets in your GitH
 
 ### NPM_TOKEN
 
-1. Go to [npmjs.com](https://www.npmjs.com) and log in to your account
-2. Click on your profile picture → "Access Tokens"
-3. Click "Generate New Token" → "Classic Token"
-4. **Important**: Select "Automation" token type (required for CI/CD)
-5. Set appropriate permissions:
-   - ✅ **Read and write** (required for publishing)
-   - ✅ **Automation** (required for GitHub Actions)
-6. Copy the generated token (you won't see it again!)
-7. In your GitHub repository:
-   - Go to **Settings** → **Secrets and variables** → **Actions**
-   - Click **"New repository secret"**
-   - Name: `NPM_TOKEN`
-   - Value: Paste your npm token
-   - Click **"Add secret"**
-
-**⚠️ Important Notes:**
-- Use an "Automation" token, not a "Publish" token
-- The token must have write permissions to publish packages
-- Keep the token secure - never commit it to your repository
+1. Go to [npmjs.com](https://www.npmjs.com)
+2. Log in to your account
+3. Go to "Access Tokens" in your profile settings
+4. Create a new "Automation" token
+5. Copy the token
+6. In your GitHub repo, go to Settings → Secrets and variables → Actions
+7. Create a new secret named `NPM_TOKEN` with your token value
 
 ### GITHUB_TOKEN (Automatic)
 
@@ -182,25 +170,6 @@ pnpm prerelease
 - **Repository**: [GitHub](https://github.com/amitjha329/zenith-editor-monorepo)
 
 ## 🐛 Troubleshooting
-
-### Authentication Issues (ENEEDAUTH)
-
-If you see `npm error code ENEEDAUTH` during publishing:
-
-1. **Check NPM_TOKEN secret:**
-   - Verify the secret exists in GitHub repository settings
-   - Ensure the token is an "Automation" token (not "Publish" or "Read-only")
-   - Make sure the token hasn't expired
-
-2. **Verify token permissions:**
-   - Token must have "Read and write" permissions
-   - Token must be "Automation" type for CI/CD usage
-
-3. **Test token locally (optional):**
-   ```bash
-   npm config set //registry.npmjs.org/:_authToken YOUR_TOKEN
-   npm whoami  # Should show your npm username
-   ```
 
 ### Workflow fails with "NPM_TOKEN not found"
 

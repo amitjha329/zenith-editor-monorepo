@@ -41,7 +41,10 @@ jobs:
         run: pnpm build
 
       - name: 🧪 Run tests
-        run: pnpm test --coverage
+        run: pnpm test
+
+      - name: 📊 Run tests with coverage
+        run: pnpm test:coverage
 
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v3

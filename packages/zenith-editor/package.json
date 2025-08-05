@@ -25,6 +25,7 @@
     "dev": "tsup --watch",
     "clean": "rimraf dist",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "prepublishOnly": "pnpm build"
   },

@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "test": "pnpm -r test",
-    "test:coverage": "pnpm -r test --coverage",
+    "test:coverage": "pnpm --filter zenith-editor test:coverage",
     "clean": "pnpm -r clean",
     "demo": "pnpm --filter zenith-editor-demo dev",
     "build:demo": "pnpm --filter zenith-editor-demo build",

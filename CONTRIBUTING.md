@@ -6,7 +6,7 @@ Thank you for your interest in contributing to Zenith Editor! We welcome contrib
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - pnpm 8+ (recommended package manager)
 - Git
 

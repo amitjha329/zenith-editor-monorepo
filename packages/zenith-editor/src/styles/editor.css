@@ -1,0 +1,368 @@
+/* Zenith Editor Styles */
+
+/* Editor Container */
+.zenith-editor-container {
+  @apply relative;
+}
+
+.zenith-editor-wrapper {
+  @apply relative min-h-[200px];
+}
+
+/* Editor Content */
+.zenith-editor-content-wrapper {
+  @apply p-4 focus:outline-none;
+}
+
+.zenith-editor-content {
+  @apply prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-none;
+}
+
+/* Placeholder styling */
+.zenith-editor-content .ProseMirror:empty:first-child::before {
+  content: attr(data-placeholder);
+  @apply text-gray-400 pointer-events-none float-left h-0;
+}
+
+.zenith-editor-content .ProseMirror {
+  @apply outline-none min-h-[150px] px-0 py-2;
+}
+
+/* Typography */
+.zenith-editor-content .zenith-heading {
+  @apply font-bold text-gray-900 leading-tight;
+}
+
+.zenith-editor-content .zenith-heading[data-level="1"] {
+  @apply text-3xl mt-6 mb-4;
+}
+
+.zenith-editor-content .zenith-heading[data-level="2"] {
+  @apply text-2xl mt-5 mb-3;
+}
+
+.zenith-editor-content .zenith-heading[data-level="3"] {
+  @apply text-xl mt-4 mb-2;
+}
+
+.zenith-editor-content .zenith-paragraph {
+  @apply text-gray-800 leading-relaxed mb-3;
+}
+
+.zenith-editor-content .zenith-paragraph:last-child {
+  @apply mb-0;
+}
+
+/* Text Formatting */
+.zenith-editor-content .zenith-bold {
+  @apply font-bold;
+}
+
+.zenith-editor-content .zenith-italic {
+  @apply italic;
+}
+
+.zenith-editor-content .zenith-underline {
+  @apply underline;
+}
+
+.zenith-editor-content .zenith-strike {
+  @apply line-through;
+}
+
+/* Links */
+.zenith-editor-content .zenith-link {
+  @apply text-blue-600 hover:text-blue-800 underline cursor-pointer;
+}
+
+.zenith-editor-content .zenith-link:visited {
+  @apply text-purple-600;
+}
+
+/* Lists */
+.zenith-editor-content .zenith-bullet-list,
+.zenith-editor-content .zenith-ordered-list {
+  @apply pl-6 my-4;
+}
+
+.zenith-editor-content .zenith-bullet-list {
+  @apply list-disc;
+}
+
+.zenith-editor-content .zenith-ordered-list {
+  @apply list-decimal;
+}
+
+.zenith-editor-content .zenith-list-item {
+  @apply mb-1;
+}
+
+.zenith-editor-content .zenith-list-item p {
+  @apply mb-0;
+}
+
+/* Blockquotes */
+.zenith-editor-content .zenith-blockquote {
+  @apply border-l-4 border-gray-300 pl-4 my-4 italic text-gray-700 bg-gray-50 py-2;
+}
+
+.zenith-editor-content .zenith-blockquote p {
+  @apply mb-0;
+}
+
+/* Images */
+.zenith-editor-content .zenith-image {
+  @apply max-w-full h-auto rounded-lg shadow-sm my-4 block;
+}
+
+.zenith-editor-content .zenith-image.ProseMirror-selectednode {
+  @apply ring-2 ring-blue-500 ring-opacity-50;
+}
+
+/* Code Blocks */
+.zenith-editor-content .zenith-code-block {
+  @apply bg-gray-100 border border-gray-300 rounded-lg p-4 my-4 font-mono text-sm overflow-x-auto;
+}
+
+.zenith-editor-content .zenith-code-block pre {
+  @apply m-0 bg-transparent border-none p-0;
+}
+
+.zenith-editor-content .zenith-code-block code {
+  @apply bg-transparent text-gray-800 text-sm font-mono;
+}
+
+/* Syntax highlighting for code blocks */
+.zenith-editor-content .zenith-code-block .hljs-comment,
+.zenith-editor-content .zenith-code-block .hljs-quote {
+  @apply text-gray-500 italic;
+}
+
+.zenith-editor-content .zenith-code-block .hljs-keyword,
+.zenith-editor-content .zenith-code-block .hljs-selector-tag,
+.zenith-editor-content .zenith-code-block .hljs-literal {
+  @apply text-purple-600 font-semibold;
+}
+
+.zenith-editor-content .zenith-code-block .hljs-string,
+.zenith-editor-content .zenith-code-block .hljs-doctag {
+  @apply text-green-600;
+}
+
+.zenith-editor-content .zenith-code-block .hljs-number,
+.zenith-editor-content .zenith-code-block .hljs-regexp,
+.zenith-editor-content .zenith-code-block .hljs-link {
+  @apply text-blue-600;
+}
+
+.zenith-editor-content .zenith-code-block .hljs-function,
+.zenith-editor-content .zenith-code-block .hljs-class {
+  @apply text-indigo-600;
+}
+
+.zenith-editor-content .zenith-code-block .hljs-variable,
+.zenith-editor-content .zenith-code-block .hljs-template-variable,
+.zenith-editor-content .zenith-code-block .hljs-tag,
+.zenith-editor-content .zenith-code-block .hljs-name,
+.zenith-editor-content .zenith-code-block .hljs-selector-id,
+.zenith-editor-content .zenith-code-block .hljs-selector-class {
+  @apply text-red-600;
+}
+
+/* Toolbar Styles */
+.zenith-toolbar {
+  @apply bg-white;
+}
+
+.zenith-toolbar-button {
+  @apply text-gray-700 hover:text-gray-900 disabled:text-gray-400;
+}
+
+.zenith-toolbar-button:hover:not(:disabled) {
+  @apply bg-gray-100;
+}
+
+.zenith-toolbar-button:active {
+  @apply bg-gray-200;
+}
+
+.zenith-toolbar-button[data-active="true"] {
+  @apply bg-gray-200 text-gray-900;
+}
+
+/* Focus styles */
+.zenith-editor-container:focus-within {
+  @apply ring-2 ring-blue-500 ring-opacity-50 border-blue-300;
+}
+
+/* Selection styles */
+.zenith-editor-content .ProseMirror ::selection {
+  @apply bg-blue-200;
+}
+
+.zenith-editor-content .ProseMirror::-moz-selection {
+  @apply bg-blue-200;
+}
+
+/* Drag and drop styles */
+.zenith-editor-content .ProseMirror-dropcursor {
+  @apply border-l-2 border-blue-500 pointer-events-none absolute;
+}
+
+.zenith-editor-content .ProseMirror-gapcursor {
+  @apply pointer-events-none absolute;
+}
+
+.zenith-editor-content .ProseMirror-gapcursor:after {
+  content: '';
+  @apply block border-t border-gray-800 absolute top-0 w-5 animate-pulse;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .zenith-toolbar {
+    @apply flex-wrap gap-1 p-2;
+  }
+  
+  .zenith-toolbar-button {
+    @apply px-1.5 py-1;
+  }
+  
+  .zenith-editor-content-wrapper {
+    @apply p-2;
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  .zenith-editor-container {
+    @apply bg-gray-800 border-gray-600;
+  }
+  
+  .zenith-toolbar {
+    @apply bg-gray-800 border-gray-600;
+  }
+  
+  .zenith-toolbar-button {
+    @apply text-gray-300 hover:text-white hover:bg-gray-700;
+  }
+  
+  .zenith-editor-content .zenith-paragraph {
+    @apply text-gray-200;
+  }
+  
+  .zenith-editor-content .zenith-heading {
+    @apply text-white;
+  }
+  
+  .zenith-editor-content .zenith-blockquote {
+    @apply bg-gray-700 border-gray-500 text-gray-300;
+  }
+  
+  .zenith-editor-content .zenith-code-block {
+    @apply bg-gray-700 border-gray-600;
+  }
+}
+
+/* Image Resize Styles */
+.zenith-image-resize-container {
+  @apply relative inline-block;
+}
+
+.zenith-image-resize-container.selected {
+  @apply ring-2 ring-blue-500 ring-opacity-50;
+}
+
+.zenith-image-resize-container .resize-handle {
+  @apply absolute w-3 h-3 bg-blue-500 border border-white rounded-full;
+  @apply opacity-0 transition-opacity duration-200;
+}
+
+.zenith-image-resize-container:hover .resize-handle,
+.zenith-image-resize-container.selected .resize-handle {
+  @apply opacity-100;
+}
+
+.zenith-image-resize-container .resize-handle:hover {
+  @apply bg-blue-600 scale-110;
+}
+
+/* Resize handle positions */
+.zenith-image-resize-container .resize-handle.nw {
+  @apply top-0 left-0 -translate-x-1/2 -translate-y-1/2 cursor-nw-resize;
+}
+
+.zenith-image-resize-container .resize-handle.n {
+  @apply top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-n-resize;
+}
+
+.zenith-image-resize-container .resize-handle.ne {
+  @apply top-0 right-0 translate-x-1/2 -translate-y-1/2 cursor-ne-resize;
+}
+
+.zenith-image-resize-container .resize-handle.e {
+  @apply top-1/2 right-0 translate-x-1/2 -translate-y-1/2 cursor-e-resize;
+}
+
+.zenith-image-resize-container .resize-handle.se {
+  @apply bottom-0 right-0 translate-x-1/2 translate-y-1/2 cursor-se-resize;
+}
+
+.zenith-image-resize-container .resize-handle.s {
+  @apply bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 cursor-s-resize;
+}
+
+.zenith-image-resize-container .resize-handle.sw {
+  @apply bottom-0 left-0 -translate-x-1/2 translate-y-1/2 cursor-sw-resize;
+}
+
+.zenith-image-resize-container .resize-handle.w {
+  @apply top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 cursor-w-resize;
+}
+
+/* Dimension tooltip */
+.zenith-image-resize-tooltip {
+  @apply absolute bg-black text-white text-xs px-2 py-1 rounded;
+  @apply pointer-events-none select-none;
+}
+
+.zenith-image-resize-tooltip.dimensions {
+  @apply -top-8 left-1/2 transform -translate-x-1/2;
+}
+
+.zenith-image-resize-tooltip.instructions {
+  @apply -bottom-8 left-1/2 transform -translate-x-1/2;
+  @apply opacity-0 group-hover:opacity-100 transition-opacity;
+  @apply whitespace-nowrap;
+}
+
+/* Image loading state */
+.zenith-image-loading {
+  @apply bg-gray-100 animate-pulse rounded-lg;
+  @apply flex items-center justify-center;
+}
+
+.zenith-image-loading-text {
+  @apply text-gray-400 text-sm;
+}
+
+/* Dark mode adjustments for image resize */
+.dark .zenith-image-resize-container.selected {
+  @apply ring-blue-400;
+}
+
+.dark .zenith-image-resize-container .resize-handle {
+  @apply bg-blue-400 border-gray-800;
+}
+
+.dark .zenith-image-resize-container .resize-handle:hover {
+  @apply bg-blue-300;
+}
+
+.dark .zenith-image-loading {
+  @apply bg-gray-800;
+}
+
+.dark .zenith-image-loading-text {
+  @apply text-gray-500;
+}

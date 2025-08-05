@@ -1,0 +1,121 @@
+name: 🏷️ Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-type:
+        description: 'Release type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - prerelease
+
+jobs:
+  release:
+    name: 🚀 Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🧪 Run tests
+        run: pnpm test
+
+      - name: 🔧 Build package
+        run: pnpm build:package
+
+      - name: 🏷️ Bump version
+        id: version
+        run: |
+          cd packages/zenith-editor
+          OLD_VERSION=$(node -p "require('./package.json').version")
+          pnpm version ${{ github.event.inputs.release-type }} --no-git-tag-version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "old_version=$OLD_VERSION" >> $GITHUB_OUTPUT
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "tag_name=v$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: 📝 Update root package.json
+        run: |
+          cd packages/zenith-editor
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          cd ../..
+          npm version $NEW_VERSION --no-git-tag-version
+
+      - name: 📝 Generate changelog
+        id: changelog
+        run: |
+          echo "## 🎉 What's New in v${{ steps.version.outputs.new_version }}" > TEMP_CHANGELOG.md
+          echo "" >> TEMP_CHANGELOG.md
+          echo "### ✨ Features" >> TEMP_CHANGELOG.md
+          echo "- Enhanced image resizing with interactive handles" >> TEMP_CHANGELOG.md
+          echo "- Improved SSR compatibility for Next.js applications" >> TEMP_CHANGELOG.md
+          echo "- Better TypeScript support and type definitions" >> TEMP_CHANGELOG.md
+          echo "" >> TEMP_CHANGELOG.md
+          echo "### 🐛 Bug Fixes" >> TEMP_CHANGELOG.md
+          echo "- Fixed hydration mismatches in SSR environments" >> TEMP_CHANGELOG.md
+          echo "- Resolved image resize event handling issues" >> TEMP_CHANGELOG.md
+          echo "- Improved NodeViewWrapper integration" >> TEMP_CHANGELOG.md
+          echo "" >> TEMP_CHANGELOG.md
+          echo "### 📦 Installation" >> TEMP_CHANGELOG.md
+          echo "\`\`\`bash" >> TEMP_CHANGELOG.md
+          echo "npm install zenith-editor@${{ steps.version.outputs.new_version }}" >> TEMP_CHANGELOG.md
+          echo "# or" >> TEMP_CHANGELOG.md
+          echo "pnpm add zenith-editor@${{ steps.version.outputs.new_version }}" >> TEMP_CHANGELOG.md
+          echo "# or" >> TEMP_CHANGELOG.md
+          echo "yarn add zenith-editor@${{ steps.version.outputs.new_version }}" >> TEMP_CHANGELOG.md
+          echo "\`\`\`" >> TEMP_CHANGELOG.md
+          echo "" >> TEMP_CHANGELOG.md
+          echo "**Full Changelog**: https://github.com/amitjha329/zenith-editor-monorepo/compare/v${{ steps.version.outputs.old_version }}...v${{ steps.version.outputs.new_version }}" >> TEMP_CHANGELOG.md
+
+      - name: 🏷️ Commit and tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "chore: bump version to v${{ steps.version.outputs.new_version }}"
+          git tag -a "${{ steps.version.outputs.tag_name }}" -m "Release v${{ steps.version.outputs.new_version }}"
+          git push origin main
+          git push origin "${{ steps.version.outputs.tag_name }}"
+
+      - name: 📋 Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.tag_name }}
+          release_name: 🚀 Zenith Editor v${{ steps.version.outputs.new_version }}
+          body_path: TEMP_CHANGELOG.md
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.new_version, 'alpha') || contains(steps.version.outputs.new_version, 'beta') || contains(steps.version.outputs.new_version, 'rc') }}
+
+      - name: 🎉 Success message
+        run: |
+          echo "🎉 Successfully created release v${{ steps.version.outputs.new_version }}!"
+          echo "🏷️ Tag: ${{ steps.version.outputs.tag_name }}"
+          echo "📦 NPM publish will be triggered automatically."

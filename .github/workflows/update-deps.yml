@@ -1,0 +1,85 @@
+name: 🔄 Update Dependencies
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    name: 📦 Update Dependencies
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔄 Update dependencies
+        run: |
+          pnpm update --latest
+          pnpm install
+
+      - name: 🧪 Test after update
+        run: |
+          pnpm build:package
+          pnpm test
+
+      - name: 🔍 Check for changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 📝 Create Pull Request
+        if: steps.changes.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update dependencies'
+          title: '🔄 Automated dependency update'
+          body: |
+            ## 🔄 Automated Dependency Update
+            
+            This PR updates the project dependencies to their latest versions.
+            
+            ### 🧪 Testing
+            - [x] Build passes
+            - [x] Tests pass
+            - [x] Package builds successfully
+            
+            ### 📦 Changes
+            Dependencies have been updated using `pnpm update --latest`.
+            
+            Please review the changes and ensure everything works as expected before merging.
+            
+            ---
+            *This PR was created automatically by the Update Dependencies workflow.*
+          branch: chore/update-dependencies
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
+            chore

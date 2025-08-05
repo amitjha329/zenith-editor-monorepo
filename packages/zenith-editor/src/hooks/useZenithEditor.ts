@@ -14,7 +14,11 @@ export interface ZenithEditorOptions {
   /** Whether the editor should be editable */
   editable?: boolean;
   /** Callback fired when content changes */
-  onUpdate?: (props: { editor: Editor; html: string; json: JSONContent }) => void;
+  onUpdate?: (props: {
+    editor: Editor;
+    html: string;
+    json: JSONContent;
+  }) => void;
   /** Callback for handling image uploads */
   onImageUpload?: (file: File) => Promise<string>;
   /** Custom extensions to add to the editor */
@@ -27,10 +31,10 @@ export interface ZenithEditorOptions {
 
 /**
  * Main hook for creating and managing a Zenith Editor instance
- * 
+ *
  * @param options - Configuration options for the editor
  * @returns Tiptap editor instance and utility functions
- * 
+ *
  * @example
  * ```tsx
  * const { editor, getHTML, getJSON } = useZenithEditor({
@@ -90,7 +94,12 @@ export function useZenithEditor(options: ZenithEditorOptions = {}) {
         class: 'zenith-editor-content',
       },
       handleDrop: (view, event, slice, moved) => {
-        if (!moved && event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]) {
+        if (
+          !moved &&
+          event.dataTransfer &&
+          event.dataTransfer.files &&
+          event.dataTransfer.files[0]
+        ) {
           const file = event.dataTransfer.files[0];
           if (file.type.startsWith('image/') && onImageUpload) {
             event.preventDefault();
@@ -115,18 +124,21 @@ export function useZenithEditor(options: ZenithEditorOptions = {}) {
     },
   });
 
-  const handleImageUpload = useCallback(async (file: File) => {
-    if (!editor || !onImageUpload) return;
+  const handleImageUpload = useCallback(
+    async (file: File) => {
+      if (!editor || !onImageUpload) return;
 
-    try {
-      const url = await onImageUpload(file);
-      if (url) {
-        editor.chain().focus().setImageResize({ src: url }).run();
+      try {
+        const url = await onImageUpload(file);
+        if (url) {
+          editor.chain().focus().setImageResize({ src: url }).run();
+        }
+      } catch (error) {
+        console.error('Image upload failed:', error);
       }
-    } catch (error) {
-      console.error('Image upload failed:', error);
-    }
-  }, [editor, onImageUpload]);
+    },
+    [editor, onImageUpload]
+  );
 
   /**
    * Get the current content as HTML string
@@ -145,11 +157,14 @@ export function useZenithEditor(options: ZenithEditorOptions = {}) {
   /**
    * Set the editor content
    */
-  const setContent = useCallback((content: string | JSONContent) => {
-    if (editor) {
-      editor.commands.setContent(content);
-    }
-  }, [editor]);
+  const setContent = useCallback(
+    (content: string | JSONContent) => {
+      if (editor) {
+        editor.commands.setContent(content);
+      }
+    },
+    [editor]
+  );
 
   /**
    * Clear all content from the editor

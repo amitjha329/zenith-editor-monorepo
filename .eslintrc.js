@@ -4,7 +4,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier'],
   extends: [
     'eslint:recommended',
-    '@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'prettier',
@@ -21,6 +21,13 @@ module.exports = {
       version: 'detect',
     },
   },
+  ignorePatterns: [
+    'dist/**',
+    'build/**',
+    'node_modules/**',
+    '.next/**',
+    '*.d.ts',
+  ],
   rules: {
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/explicit-function-return-type': 'off',

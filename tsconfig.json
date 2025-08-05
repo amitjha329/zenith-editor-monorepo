@@ -29,14 +29,6 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/.next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".next"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "**/.next/types/**/*.ts"],
+  "exclude": ["node_modules", "dist", ".next"]
 }

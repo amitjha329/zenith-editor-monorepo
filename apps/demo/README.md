@@ -57,12 +57,12 @@ The demo includes a mock image upload function that converts images to base64. I
 const handleImageUpload = async (file: File): Promise<string> => {
   const formData = new FormData();
   formData.append('file', file);
-  
+
   const response = await fetch('/api/upload', {
     method: 'POST',
     body: formData,
   });
-  
+
   const { url } = await response.json();
   return url;
 };

@@ -27,7 +27,9 @@ const nodeVersion = process.version;
 const majorVersion = parseInt(nodeVersion.substring(1).split('.')[0]);
 
 if (majorVersion < 18) {
-  console.log(`❌ Node.js ${nodeVersion} is not supported. Please upgrade to Node.js 18 or later.`);
+  console.log(
+    `❌ Node.js ${nodeVersion} is not supported. Please upgrade to Node.js 18 or later.`
+  );
   process.exit(1);
 }
 

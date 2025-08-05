@@ -27,11 +27,17 @@ export const lowlight = createLowlight();
 // Use dynamic imports to avoid bundling issues
 const registerLanguages = async () => {
   try {
-    const { default: javascript } = await import('highlight.js/lib/languages/javascript');
-    const { default: typescript } = await import('highlight.js/lib/languages/typescript');
+    const { default: javascript } = await import(
+      'highlight.js/lib/languages/javascript'
+    );
+    const { default: typescript } = await import(
+      'highlight.js/lib/languages/typescript'
+    );
     const { default: css } = await import('highlight.js/lib/languages/css');
     const { default: html } = await import('highlight.js/lib/languages/xml');
-    const { default: python } = await import('highlight.js/lib/languages/python');
+    const { default: python } = await import(
+      'highlight.js/lib/languages/python'
+    );
     const { default: json } = await import('highlight.js/lib/languages/json');
 
     lowlight.register('javascript', javascript);
@@ -61,7 +67,7 @@ export const defaultExtensions = [
     },
   }),
   Text,
-  
+
   // Text formatting
   Bold.configure({
     HTMLAttributes: {
@@ -83,7 +89,7 @@ export const defaultExtensions = [
       class: 'zenith-strike',
     },
   }),
-  
+
   // Headings
   Heading.configure({
     levels: [1, 2, 3],
@@ -91,7 +97,7 @@ export const defaultExtensions = [
       class: 'zenith-heading',
     },
   }),
-  
+
   // Lists
   BulletList.configure({
     HTMLAttributes: {
@@ -108,7 +114,7 @@ export const defaultExtensions = [
       class: 'zenith-list-item',
     },
   }),
-  
+
   // Links
   Link.configure({
     openOnClick: false,
@@ -118,7 +124,7 @@ export const defaultExtensions = [
       target: '_blank',
     },
   }),
-  
+
   // Images with resizing capabilities
   ImageResizeExtension.configure({
     HTMLAttributes: {
@@ -127,14 +133,14 @@ export const defaultExtensions = [
     allowBase64: true,
     inline: false,
   }),
-  
+
   // Blockquotes
   Blockquote.configure({
     HTMLAttributes: {
       class: 'zenith-blockquote',
     },
   }),
-  
+
   // Code blocks with syntax highlighting
   CodeBlockLowlight.configure({
     lowlight,
@@ -143,12 +149,12 @@ export const defaultExtensions = [
       class: 'zenith-code-block',
     },
   }),
-  
+
   // History for undo/redo
   History.configure({
     depth: 100,
   }),
-  
+
   // Enhanced editing experience
   HardBreak,
   Gapcursor,
@@ -160,7 +166,7 @@ export const defaultExtensions = [
  */
 export const PlaceholderExtension = Extension.create({
   name: 'placeholder',
-  
+
   addGlobalAttributes() {
     return [
       {
@@ -181,7 +187,7 @@ export const PlaceholderExtension = Extension.create({
       },
     ];
   },
-  
+
   addProseMirrorPlugins() {
     return [];
   },

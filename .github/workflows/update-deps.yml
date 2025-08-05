@@ -13,7 +13,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    
+
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
@@ -62,19 +62,19 @@ jobs:
           title: '🔄 Automated dependency update'
           body: |
             ## 🔄 Automated Dependency Update
-            
+
             This PR updates the project dependencies to their latest versions.
-            
+
             ### 🧪 Testing
             - [x] Build passes
             - [x] Tests pass
             - [x] Package builds successfully
-            
+
             ### 📦 Changes
             Dependencies have been updated using `pnpm update --latest`.
-            
+
             Please review the changes and ensure everything works as expected before merging.
-            
+
             ---
             *This PR was created automatically by the Update Dependencies workflow.*
           branch: chore/update-dependencies

@@ -7,10 +7,12 @@ This repository includes several automated workflows to ensure code quality, aut
 ### 1. 🧪 CI/CD Pipeline (`ci.yml`)
 
 **Triggers:**
+
 - Push to `main` or `develop` branches
 - Pull requests to `main` or `develop` branches
 
 **What it does:**
+
 - **Tests**: Runs the test suite on Node.js 18 & 20
 - **Linting**: Checks code style with ESLint
 - **Formatting**: Validates Prettier formatting
@@ -21,16 +23,19 @@ This repository includes several automated workflows to ensure code quality, aut
 ### 2. 📦 Publish to NPM (`publish.yml`)
 
 **Triggers:**
+
 - When a tag starting with `v` is pushed (e.g., `v1.0.0`)
 - Manual workflow dispatch with version selection
 
 **What it does:**
+
 - Builds and tests the package
 - Publishes to npm with the specified version
 - Creates a GitHub release with changelog
 - Tags the repository
 
 **Manual Usage:**
+
 ```bash
 # Trigger manually from GitHub Actions tab
 # Select version type: patch, minor, major, or prerelease
@@ -39,9 +44,11 @@ This repository includes several automated workflows to ensure code quality, aut
 ### 3. 🏷️ Release (`release.yml`)
 
 **Triggers:**
+
 - Manual workflow dispatch only
 
 **What it does:**
+
 - Bumps version in package.json
 - Creates git tag
 - Generates changelog
@@ -49,6 +56,7 @@ This repository includes several automated workflows to ensure code quality, aut
 - Triggers npm publish workflow
 
 **Usage:**
+
 1. Go to "Actions" tab in GitHub
 2. Select "🏷️ Release" workflow
 3. Click "Run workflow"
@@ -57,10 +65,12 @@ This repository includes several automated workflows to ensure code quality, aut
 ### 4. 🔄 Update Dependencies (`update-deps.yml`)
 
 **Triggers:**
+
 - Scheduled: Every Monday at 9 AM UTC
 - Manual workflow dispatch
 
 **What it does:**
+
 - Updates all dependencies to latest versions
 - Runs tests to ensure compatibility
 - Creates a pull request with changes
@@ -70,6 +80,7 @@ This repository includes several automated workflows to ensure code quality, aut
 To use these workflows, you'll need to set up the following secrets in your GitHub repository:
 
 ### NPM_TOKEN
+
 1. Go to [npmjs.com](https://www.npmjs.com)
 2. Log in to your account
 3. Go to "Access Tokens" in your profile settings
@@ -79,6 +90,7 @@ To use these workflows, you'll need to set up the following secrets in your GitH
 7. Create a new secret named `NPM_TOKEN` with your token value
 
 ### GITHUB_TOKEN (Automatic)
+
 This is automatically provided by GitHub Actions - no setup required.
 
 ## 🚀 Publishing Workflow
@@ -86,10 +98,11 @@ This is automatically provided by GitHub Actions - no setup required.
 ### Automated Publishing (Recommended)
 
 1. **Create a release:**
+
    ```bash
    # Method 1: Use GitHub Actions
    # Go to Actions → Release → Run workflow → Select version type
-   
+
    # Method 2: Create tag manually
    git tag v1.0.0
    git push origin v1.0.0
@@ -159,16 +172,19 @@ pnpm prerelease
 ## 🐛 Troubleshooting
 
 ### Workflow fails with "NPM_TOKEN not found"
+
 - Ensure you've added the NPM_TOKEN secret to your repository
 - Verify the token has "Automation" permissions
 - Check that the token hasn't expired
 
 ### Build fails in CI
+
 - Run `pnpm build:package` locally to test
 - Check for TypeScript errors with `pnpm type-check`
 - Ensure all tests pass with `pnpm test`
 
 ### Version conflicts
+
 - Make sure version in `packages/zenith-editor/package.json` matches git tags
 - Use semantic versioning (e.g., 1.0.0, 1.1.0, 2.0.0)
 

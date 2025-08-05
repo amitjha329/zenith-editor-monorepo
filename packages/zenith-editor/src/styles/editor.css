@@ -33,15 +33,15 @@
   @apply font-bold text-gray-900 leading-tight;
 }
 
-.zenith-editor-content .zenith-heading[data-level="1"] {
+.zenith-editor-content .zenith-heading[data-level='1'] {
   @apply text-3xl mt-6 mb-4;
 }
 
-.zenith-editor-content .zenith-heading[data-level="2"] {
+.zenith-editor-content .zenith-heading[data-level='2'] {
   @apply text-2xl mt-5 mb-3;
 }
 
-.zenith-editor-content .zenith-heading[data-level="3"] {
+.zenith-editor-content .zenith-heading[data-level='3'] {
   @apply text-xl mt-4 mb-2;
 }
 
@@ -186,7 +186,7 @@
   @apply bg-gray-200;
 }
 
-.zenith-toolbar-button[data-active="true"] {
+.zenith-toolbar-button[data-active='true'] {
   @apply bg-gray-200 text-gray-900;
 }
 
@@ -223,11 +223,11 @@
   .zenith-toolbar {
     @apply flex-wrap gap-1 p-2;
   }
-  
+
   .zenith-toolbar-button {
     @apply px-1.5 py-1;
   }
-  
+
   .zenith-editor-content-wrapper {
     @apply p-2;
   }
@@ -238,27 +238,27 @@
   .zenith-editor-container {
     @apply bg-gray-800 border-gray-600;
   }
-  
+
   .zenith-toolbar {
     @apply bg-gray-800 border-gray-600;
   }
-  
+
   .zenith-toolbar-button {
     @apply text-gray-300 hover:text-white hover:bg-gray-700;
   }
-  
+
   .zenith-editor-content .zenith-paragraph {
     @apply text-gray-200;
   }
-  
+
   .zenith-editor-content .zenith-heading {
     @apply text-white;
   }
-  
+
   .zenith-editor-content .zenith-blockquote {
     @apply bg-gray-700 border-gray-500 text-gray-300;
   }
-  
+
   .zenith-editor-content .zenith-code-block {
     @apply bg-gray-700 border-gray-600;
   }

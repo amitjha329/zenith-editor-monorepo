@@ -6,12 +6,14 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Zenith Editor Demo',
-  description: 'Demo application for Zenith Editor - A modern WYSIWYG editor for React & Next.js',
+  description:
+    'Demo application for Zenith Editor - A modern WYSIWYG editor for React & Next.js',
   keywords: ['editor', 'wysiwyg', 'react', 'nextjs', 'typescript', 'tiptap'],
   authors: [{ name: 'Zenith Editor Team' }],
   openGraph: {
     title: 'Zenith Editor Demo',
-    description: 'Experience the power of Zenith Editor - A modern WYSIWYG editor',
+    description:
+      'Experience the power of Zenith Editor - A modern WYSIWYG editor',
     type: 'website',
   },
 };

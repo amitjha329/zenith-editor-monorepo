@@ -7,14 +7,14 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   external: [
-    'react', 
+    'react',
     'react-dom',
     'highlight.js/lib/languages/javascript',
     'highlight.js/lib/languages/typescript',
     'highlight.js/lib/languages/css',
     'highlight.js/lib/languages/xml',
     'highlight.js/lib/languages/python',
-    'highlight.js/lib/languages/json'
+    'highlight.js/lib/languages/json',
   ],
   esbuildOptions(options: any) {
     options.banner = {

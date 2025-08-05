@@ -1,7 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
-import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { ImageResize } from '../components/ImageResize';
 
 export interface ImageResizeOptions {
@@ -16,7 +15,13 @@ declare module '@tiptap/core' {
       /**
        * Add an image with resizing capabilities
        */
-      setImageResize: (options: { src: string; alt?: string; title?: string; width?: number; height?: number }) => ReturnType;
+      setImageResize: (options: {
+        src: string;
+        alt?: string;
+        title?: string;
+        width?: number;
+        height?: number;
+      }) => ReturnType;
     };
   }
 }
@@ -55,8 +60,8 @@ export const ImageResizeExtension = Node.create<ImageResizeOptions>({
       },
       width: {
         default: null,
-        parseHTML: element => element.getAttribute('width'),
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('width'),
+        renderHTML: (attributes) => {
           if (!attributes.width) {
             return {};
           }
@@ -67,8 +72,8 @@ export const ImageResizeExtension = Node.create<ImageResizeOptions>({
       },
       height: {
         default: null,
-        parseHTML: element => element.getAttribute('height'),
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('height'),
+        renderHTML: (attributes) => {
           if (!attributes.height) {
             return {};
           }
@@ -87,13 +92,16 @@ export const ImageResizeExtension = Node.create<ImageResizeOptions>({
       },
       {
         tag: `img[src^="data:"]`,
-        getAttrs: () => this.options.allowBase64 ? {} : false,
+        getAttrs: () => (this.options.allowBase64 ? {} : false),
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
+    return [
+      'img',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+    ];
   },
 
   addCommands() {
@@ -124,10 +132,14 @@ export const ImageResizeExtension = Node.create<ImageResizeOptions>({
           const start = range.from;
           const end = range.to;
 
-          tr.replaceWith(start, end, this.type.create({
-            src,
-            alt: alt || null,
-          }));
+          tr.replaceWith(
+            start,
+            end,
+            this.type.create({
+              src,
+              alt: alt || null,
+            })
+          );
         },
       },
     ];
@@ -143,7 +155,9 @@ export const ImageResizeExtension = Node.create<ImageResizeOptions>({
             if (moved || !event.dataTransfer) return false;
 
             const files = Array.from(event.dataTransfer.files);
-            const imageFiles = files.filter(file => file.type.startsWith('image/'));
+            const imageFiles = files.filter((file) =>
+              file.type.startsWith('image/')
+            );
 
             if (imageFiles.length === 0) return false;
 
@@ -173,15 +187,17 @@ export const ImageResizeExtension = Node.create<ImageResizeOptions>({
 
             return true;
           },
-          handlePaste(view, event, slice) {
+          handlePaste(view, event, _slice) {
             const items = Array.from(event.clipboardData?.items || []);
-            const imageItems = items.filter(item => item.type.startsWith('image/'));
+            const imageItems = items.filter((item) =>
+              item.type.startsWith('image/')
+            );
 
             if (imageItems.length === 0) return false;
 
             event.preventDefault();
 
-            imageItems.forEach(item => {
+            imageItems.forEach((item) => {
               const file = item.getAsFile();
               if (!file) return;
 

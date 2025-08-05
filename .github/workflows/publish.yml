@@ -24,7 +24,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
-    
+
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
@@ -71,7 +71,7 @@ jobs:
       - name: 📝 Update package.json version
         run: |
           echo "Publishing version: $NEW_VERSION"
-          
+
       - name: 🚀 Publish to NPM
         run: |
           cd packages/zenith-editor
@@ -98,17 +98,17 @@ jobs:
           release_name: 🚀 Zenith Editor v${{ env.NEW_VERSION }}
           body: |
             ## 🎉 What's New in v${{ env.NEW_VERSION }}
-            
+
             ### ✨ Features
             - Enhanced image resizing with interactive handles
             - Improved SSR compatibility for Next.js applications
             - Better TypeScript support and type definitions
-            
+
             ### 🐛 Bug Fixes
             - Fixed hydration mismatches in SSR environments
             - Resolved image resize event handling issues
             - Improved NodeViewWrapper integration
-            
+
             ### 📦 Installation
             ```bash
             npm install zenith-editor@${{ env.NEW_VERSION }}
@@ -117,11 +117,11 @@ jobs:
             # or
             yarn add zenith-editor@${{ env.NEW_VERSION }}
             ```
-            
+
             ### 📚 Documentation
             - [API Reference](https://github.com/amitjha329/zenith-editor-monorepo/blob/main/packages/zenith-editor/README.md)
             - [Migration Guide](https://github.com/amitjha329/zenith-editor-monorepo/blob/main/docs/migration.md)
-            
+
             **Full Changelog**: https://github.com/amitjha329/zenith-editor-monorepo/compare/v${{ env.PREVIOUS_VERSION }}...v${{ env.NEW_VERSION }}
           draft: false
           prerelease: ${{ contains(env.NEW_VERSION, 'alpha') || contains(env.NEW_VERSION, 'beta') || contains(env.NEW_VERSION, 'rc') }}

@@ -20,6 +20,7 @@ A modern, production-ready WYSIWYG editor built with React, TypeScript, and Tipt
 ## ✨ Features
 
 ### Rich Text Editing
+
 - **Text Formatting**: Bold, italic, underline, strikethrough
 - **Headings**: H1, H2, H3 with proper hierarchy
 - **Lists**: Ordered and unordered lists with nesting
@@ -28,16 +29,19 @@ A modern, production-ready WYSIWYG editor built with React, TypeScript, and Tipt
 - **Code Blocks**: Syntax-highlighted code with language support
 
 ### Media & Assets
+
 - **Images**: Drag & drop, paste, or upload with custom handlers
 - **File Upload**: Flexible upload system for any backend
 
 ### User Experience
+
 - **History**: Full undo/redo functionality
 - **Keyboard Shortcuts**: Standard shortcuts (Ctrl+B, Ctrl+I, etc.)
 - **Accessibility**: ARIA labels and keyboard navigation
 - **Responsive**: Mobile-first design
 
 ### Developer Experience
+
 - **TypeScript**: 100% TypeScript with full type safety
 - **SSR Ready**: Works with Next.js App Router out of the box
 - **Extensible**: Built on Tiptap for maximum customization
@@ -58,6 +62,7 @@ yarn add zenith-editor
 ```
 
 ### Peer Dependencies
+
 ```bash
 pnpm add react react-dom
 ```
@@ -99,9 +104,9 @@ import dynamic from 'next/dynamic';
 
 const ZenithEditor = dynamic(
   () => import('zenith-editor').then((mod) => mod.ZenithEditor),
-  { 
+  {
     ssr: false,
-    loading: () => <div>Loading editor...</div>
+    loading: () => <div>Loading editor...</div>,
   }
 );
 
@@ -199,10 +204,8 @@ import { render, screen } from '@testing-library/react';
 import { ZenithEditor } from 'zenith-editor';
 
 test('renders editor with placeholder', () => {
-  render(
-    <ZenithEditor placeholder="Type something..." />
-  );
-  
+  render(<ZenithEditor placeholder="Type something..." />);
+
   expect(screen.getByText('Type something...')).toBeInTheDocument();
 });
 ```

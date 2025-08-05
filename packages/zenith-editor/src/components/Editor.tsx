@@ -11,7 +11,10 @@ export interface ZenithEditorProps extends ZenithEditorOptions {
   /** Whether to show the toolbar */
   showToolbar?: boolean;
   /** Custom toolbar component */
-  toolbar?: React.ComponentType<{ editor: any; onImageUpload?: (file: File) => Promise<string> }>;
+  toolbar?: React.ComponentType<{
+    editor: any;
+    onImageUpload?: (file: File) => Promise<string>;
+  }>;
   /** Additional CSS class names for the container */
   containerClassName?: string;
   /** Additional CSS class names for the editor content */
@@ -50,15 +53,15 @@ export interface ZenithEditorRef {
 
 /**
  * ZenithEditor - A modern, production-ready WYSIWYG editor
- * 
+ *
  * @example
  * ```tsx
  * import { ZenithEditor } from 'zenith-editor';
  * import 'zenith-editor/styles';
- * 
+ *
  * function MyComponent() {
  *   const [content, setContent] = useState('');
- * 
+ *
  *   return (
  *     <ZenithEditor
  *       initialContent="<p>Hello world!</p>"
@@ -99,7 +102,6 @@ export const ZenithEditor = forwardRef<ZenithEditorRef, ZenithEditorProps>(
       isFocused,
       canUndo,
       canRedo,
-      handleImageUpload,
     } = useZenithEditor(editorOptions);
 
     // Expose editor methods through ref
@@ -118,7 +120,19 @@ export const ZenithEditor = forwardRef<ZenithEditorRef, ZenithEditorProps>(
         canUndo,
         canRedo,
       }),
-      [getHTML, getJSON, setContent, clearContent, focus, undo, redo, isEmpty, isFocused, canUndo, canRedo]
+      [
+        getHTML,
+        getJSON,
+        setContent,
+        clearContent,
+        focus,
+        undo,
+        redo,
+        isEmpty,
+        isFocused,
+        canUndo,
+        canRedo,
+      ]
     );
 
     if (!editor) {
@@ -141,7 +155,7 @@ export const ZenithEditor = forwardRef<ZenithEditorRef, ZenithEditorProps>(
             <ToolbarComponent editor={editor} onImageUpload={onImageUpload} />
           </div>
         )}
-        
+
         <div className="zenith-editor-wrapper relative">
           <EditorContent
             editor={editor}

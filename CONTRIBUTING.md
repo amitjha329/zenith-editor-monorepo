@@ -6,29 +6,33 @@ Thank you for your interest in contributing to Zenith Editor! We welcome contrib
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - pnpm 8+ (recommended package manager)
 - Git
 
 ### Development Setup
 
 1. **Fork and Clone**
+
    ```bash
    git clone https://github.com/your-username/zenith-editor.git
    cd zenith-editor
    ```
 
 2. **Install Dependencies**
+
    ```bash
    pnpm install
    ```
 
 3. **Build the Package**
+
    ```bash
    pnpm build:package
    ```
 
 4. **Run the Demo**
+
    ```bash
    pnpm demo
    ```
@@ -43,6 +47,7 @@ Thank you for your interest in contributing to Zenith Editor! We welcome contrib
 ### Making Changes
 
 1. **Create a Branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    # or
@@ -55,13 +60,14 @@ Thank you for your interest in contributing to Zenith Editor! We welcome contrib
    - Update documentation as needed
 
 3. **Test Your Changes**
+
    ```bash
    # Run tests
    pnpm test
-   
+
    # Test in the demo app
    pnpm demo
-   
+
    # Build and check for errors
    pnpm build:package
    ```
@@ -130,7 +136,7 @@ describe('YourComponent', () => {
   it('should handle user interaction', () => {
     const handleClick = jest.fn();
     render(<YourComponent onClick={handleClick} />);
-    
+
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -170,14 +176,14 @@ interface CustomComponentProps {
 
 /**
  * A custom component that demonstrates our coding standards
- * 
+ *
  * @param props - The component props
  * @returns JSX element
  */
-export function CustomComponent({ 
-  title, 
-  disabled = false, 
-  onClick 
+export function CustomComponent({
+  title,
+  disabled = false,
+  onClick,
 }: CustomComponentProps) {
   return (
     <button
@@ -216,6 +222,7 @@ When adding features, please update:
    - Maintain or improve test coverage
 
 3. **Create Pull Request**
+
    ```bash
    git add .
    git commit -m "feat: add amazing new feature"
@@ -241,6 +248,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 - `chore:` - Build process or auxiliary tool changes
 
 Examples:
+
 ```
 feat: add image drag and drop support
 fix: resolve toolbar positioning issue

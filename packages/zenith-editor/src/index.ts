@@ -11,7 +11,11 @@ export { Toolbar } from './components/Toolbar';
 export { useZenithEditor } from './hooks/useZenithEditor';
 
 // Extensions
-export { defaultExtensions, PlaceholderExtension, lowlight } from './extensions';
+export {
+  defaultExtensions,
+  PlaceholderExtension,
+  lowlight,
+} from './extensions';
 
 // Types
 export type { ZenithEditorProps, ZenithEditorRef } from './components/Editor';

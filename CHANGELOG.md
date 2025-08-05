@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Initial release of Zenith Editor
 - Core WYSIWYG editing functionality
 - React and TypeScript support
@@ -17,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Demo application
 
 ### Features
+
 - **Text Formatting**: Bold, italic, underline, strikethrough
 - **Headings**: H1, H2, H3 support
 - **Lists**: Ordered and unordered lists
@@ -30,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **TypeScript**: Full type safety and IntelliSense support
 
 ### Technical
+
 - Built on Tiptap 2.x for extensibility
 - Uses ProseMirror for rich text editing
 - Tailwind CSS for styling
@@ -40,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-08-04
 
 ### Added
+
 - Initial release of Zenith Editor package
 - Complete monorepo setup with demo application
 - Comprehensive documentation and examples

@@ -81,9 +81,9 @@ import dynamic from 'next/dynamic';
 // Import the editor dynamically to avoid SSR issues
 const ZenithEditor = dynamic(
   () => import('zenith-editor').then((mod) => mod.ZenithEditor),
-  { 
+  {
     ssr: false,
-    loading: () => <p>Loading editor...</p>
+    loading: () => <p>Loading editor...</p>,
   }
 );
 
@@ -93,7 +93,7 @@ export default function EditorPage() {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">My Editor</h1>
-      
+
       <ZenithEditor
         initialContent="<p>Start writing your content here...</p>"
         placeholder="What's on your mind?"
@@ -104,22 +104,20 @@ export default function EditorPage() {
           // Implement your image upload logic
           const formData = new FormData();
           formData.append('file', file);
-          
+
           const response = await fetch('/api/upload', {
             method: 'POST',
             body: formData,
           });
-          
+
           const { url } = await response.json();
           return url;
         }}
       />
-      
+
       <div className="mt-4">
         <h2 className="text-lg font-semibold">Output:</h2>
-        <pre className="bg-gray-100 p-4 rounded mt-2 text-sm">
-          {content}
-        </pre>
+        <pre className="bg-gray-100 p-4 rounded mt-2 text-sm">{content}</pre>
       </div>
     </div>
   );
@@ -137,30 +135,29 @@ function EditorWithImageUpload() {
       // Option 1: Upload to your API
       const formData = new FormData();
       formData.append('file', file);
-      
+
       const response = await fetch('/api/upload-image', {
         method: 'POST',
         body: formData,
       });
-      
+
       if (!response.ok) {
         throw new Error('Upload failed');
       }
-      
+
       const { url } = await response.json();
       return url;
-      
+
       // Option 2: Upload to cloud storage (e.g., AWS S3)
       // const { url } = await uploadToS3(file);
       // return url;
-      
+
       // Option 3: Convert to base64 (not recommended for production)
       // return new Promise((resolve) => {
       //   const reader = new FileReader();
       //   reader.onload = () => resolve(reader.result as string);
       //   reader.readAsDataURL(file);
       // });
-      
     } catch (error) {
       console.error('Image upload failed:', error);
       throw error;
@@ -180,21 +177,21 @@ function EditorWithImageUpload() {
 
 ### ZenithEditor Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `initialContent` | `string \| JSONContent` | `''` | Initial content as HTML string or Tiptap JSON |
-| `placeholder` | `string` | `'Start typing...'` | Placeholder text when editor is empty |
-| `editable` | `boolean` | `true` | Whether the editor should be editable |
-| `showToolbar` | `boolean` | `true` | Whether to show the toolbar |
-| `autoFocus` | `boolean \| 'start' \| 'end' \| number` | `false` | Auto focus behavior on mount |
-| `className` | `string` | `undefined` | Additional CSS class for the editor |
-| `containerClassName` | `string` | `undefined` | Additional CSS class for the container |
-| `editorClassName` | `string` | `undefined` | Additional CSS class for the editor content |
-| `style` | `React.CSSProperties` | `undefined` | Inline styles for the container |
-| `onUpdate` | `(props) => void` | `undefined` | Callback when content changes |
-| `onImageUpload` | `(file: File) => Promise<string>` | `undefined` | Custom image upload handler |
-| `extensions` | `Extension[]` | `[]` | Additional Tiptap extensions |
-| `toolbar` | `React.ComponentType` | `Toolbar` | Custom toolbar component |
+| Prop                 | Type                                    | Default             | Description                                   |
+| -------------------- | --------------------------------------- | ------------------- | --------------------------------------------- |
+| `initialContent`     | `string \| JSONContent`                 | `''`                | Initial content as HTML string or Tiptap JSON |
+| `placeholder`        | `string`                                | `'Start typing...'` | Placeholder text when editor is empty         |
+| `editable`           | `boolean`                               | `true`              | Whether the editor should be editable         |
+| `showToolbar`        | `boolean`                               | `true`              | Whether to show the toolbar                   |
+| `autoFocus`          | `boolean \| 'start' \| 'end' \| number` | `false`             | Auto focus behavior on mount                  |
+| `className`          | `string`                                | `undefined`         | Additional CSS class for the editor           |
+| `containerClassName` | `string`                                | `undefined`         | Additional CSS class for the container        |
+| `editorClassName`    | `string`                                | `undefined`         | Additional CSS class for the editor content   |
+| `style`              | `React.CSSProperties`                   | `undefined`         | Inline styles for the container               |
+| `onUpdate`           | `(props) => void`                       | `undefined`         | Callback when content changes                 |
+| `onImageUpload`      | `(file: File) => Promise<string>`       | `undefined`         | Custom image upload handler                   |
+| `extensions`         | `Extension[]`                           | `[]`                | Additional Tiptap extensions                  |
+| `toolbar`            | `React.ComponentType`                   | `Toolbar`           | Custom toolbar component                      |
 
 ### onUpdate Callback
 
@@ -203,7 +200,7 @@ onUpdate: ({ editor, html, json }) => {
   // editor: Tiptap Editor instance
   // html: Current content as HTML string
   // json: Current content as Tiptap JSON object
-}
+};
 ```
 
 ### useZenithEditor Hook
@@ -214,18 +211,18 @@ For advanced use cases, you can use the hook directly:
 import { useZenithEditor } from 'zenith-editor';
 
 function CustomEditor() {
-  const { 
-    editor, 
-    getHTML, 
-    getJSON, 
-    setContent, 
+  const {
+    editor,
+    getHTML,
+    getJSON,
+    setContent,
     clearContent,
     focus,
     isEmpty,
     canUndo,
     canRedo,
     undo,
-    redo
+    redo,
   } = useZenithEditor({
     initialContent: '<p>Hello</p>',
     onUpdate: ({ html }) => console.log(html),
@@ -238,11 +235,15 @@ function CustomEditor() {
       </button>
       <button onClick={clearContent}>Clear</button>
       <button onClick={focus}>Focus</button>
-      <button onClick={undo} disabled={!canUndo}>Undo</button>
-      <button onClick={redo} disabled={!canRedo}>Redo</button>
-      
+      <button onClick={undo} disabled={!canUndo}>
+        Undo
+      </button>
+      <button onClick={redo} disabled={!canRedo}>
+        Redo
+      </button>
+
       <EditorContent editor={editor} />
-      
+
       <div>
         <strong>Empty:</strong> {isEmpty ? 'Yes' : 'No'}
       </div>
@@ -264,7 +265,7 @@ function EditorWithRef() {
     if (editorRef.current) {
       const html = editorRef.current.getHTML();
       const json = editorRef.current.getJSON();
-      
+
       // Save content...
       console.log({ html, json });
     }
@@ -277,7 +278,7 @@ function EditorWithRef() {
   return (
     <div>
       <ZenithEditor ref={editorRef} />
-      
+
       <div className="mt-4 space-x-2">
         <button onClick={handleSave}>Save</button>
         <button onClick={handleClear}>Clear</button>
@@ -333,7 +334,7 @@ function CustomToolbar({ editor }: CustomToolbarProps) {
       >
         Bold
       </button>
-      
+
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={`px-3 py-1 rounded ${
@@ -350,7 +351,7 @@ function CustomToolbar({ editor }: CustomToolbarProps) {
 <ZenithEditor
   toolbar={CustomToolbar}
   // ... other props
-/>
+/>;
 ```
 
 ### Adding Custom Extensions
@@ -401,10 +402,8 @@ import { render, screen } from '@testing-library/react';
 import { ZenithEditor } from 'zenith-editor';
 
 test('renders editor with placeholder', () => {
-  render(
-    <ZenithEditor placeholder="Type something..." />
-  );
-  
+  render(<ZenithEditor placeholder="Type something..." />);
+
   expect(screen.getByText('Type something...')).toBeInTheDocument();
 });
 ```

@@ -35,22 +35,22 @@ describe('Toolbar', () => {
 
   it('renders all toolbar buttons', () => {
     render(<Toolbar editor={mockEditor} />);
-    
+
     // Check for formatting buttons
     expect(screen.getByTitle('Bold (Ctrl+B)')).toBeInTheDocument();
     expect(screen.getByTitle('Italic (Ctrl+I)')).toBeInTheDocument();
     expect(screen.getByTitle('Underline (Ctrl+U)')).toBeInTheDocument();
     expect(screen.getByTitle('Strikethrough')).toBeInTheDocument();
-    
+
     // Check for heading buttons
     expect(screen.getByTitle('Heading 1')).toBeInTheDocument();
     expect(screen.getByTitle('Heading 2')).toBeInTheDocument();
     expect(screen.getByTitle('Heading 3')).toBeInTheDocument();
-    
+
     // Check for list buttons
     expect(screen.getByTitle('Bullet List')).toBeInTheDocument();
     expect(screen.getByTitle('Ordered List')).toBeInTheDocument();
-    
+
     // Check for other buttons
     expect(screen.getByTitle('Add Link')).toBeInTheDocument();
     expect(screen.getByTitle('Blockquote')).toBeInTheDocument();
@@ -61,11 +61,11 @@ describe('Toolbar', () => {
 
   it('calls editor methods when buttons are clicked', () => {
     render(<Toolbar editor={mockEditor} />);
-    
+
     // Test bold button
     const boldButton = screen.getByTitle('Bold (Ctrl+B)');
     fireEvent.click(boldButton);
-    
+
     expect(mockEditor.chain).toHaveBeenCalled();
   });
 
@@ -74,9 +74,9 @@ describe('Toolbar', () => {
       ...mockEditor,
       isActive: jest.fn().mockImplementation((format) => format === 'bold'),
     };
-    
+
     render(<Toolbar editor={activeEditor} />);
-    
+
     const boldButton = screen.getByTitle('Bold (Ctrl+B)');
     expect(boldButton).toHaveClass('bg-gray-200');
   });
@@ -84,13 +84,13 @@ describe('Toolbar', () => {
   it('shows image upload button when onImageUpload is provided', () => {
     const mockImageUpload = jest.fn();
     render(<Toolbar editor={mockEditor} onImageUpload={mockImageUpload} />);
-    
+
     expect(screen.getByTitle('Add Image')).toBeInTheDocument();
   });
 
   it('does not show image upload button when onImageUpload is not provided', () => {
     render(<Toolbar editor={mockEditor} />);
-    
+
     expect(screen.queryByTitle('Add Image')).not.toBeInTheDocument();
   });
 
@@ -102,12 +102,12 @@ describe('Toolbar', () => {
         redo: jest.fn().mockReturnValue(false),
       }),
     };
-    
+
     render(<Toolbar editor={disabledEditor} />);
-    
+
     const undoButton = screen.getByTitle('Undo (Ctrl+Z)');
     const redoButton = screen.getByTitle('Redo (Ctrl+Y)');
-    
+
     expect(undoButton).toBeDisabled();
     expect(redoButton).toBeDisabled();
   });

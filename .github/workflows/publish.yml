@@ -1,4 +1,4 @@
-name: 📦 Publish to NPM
+name: 🚀 Publish to NPM
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to publish (e.g., 1.0.0)'
+        description: 'Version type to publish'
         required: true
         default: 'patch'
         type: choice
@@ -19,7 +19,7 @@ on:
 
 jobs:
   publish:
-    name: 🚀 Build and Publish
+    name: 📦 Build & Publish
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -43,6 +43,8 @@ jobs:
           node-version: '18'
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
@@ -109,10 +111,20 @@ jobs:
         run: |
           echo "Publishing version: $NEW_VERSION"
 
+      - name: 🔐 Verify NPM authentication
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" > ~/.npmrc
+          npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: 🚀 Publish to NPM
         run: |
           cd packages/zenith-editor
-          pnpm publish --access public --no-git-checks
+          # Create local .npmrc for authentication
+          echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" > .npmrc
+          # Use npm publish instead of pnpm for better authentication compatibility
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -135,17 +147,17 @@ jobs:
           release_name: 🚀 Zenith Editor v${{ env.NEW_VERSION }}
           body: |
             ## 🎉 What's New in v${{ env.NEW_VERSION }}
-
+            
             ### ✨ Features
             - Enhanced image resizing with interactive handles
             - Improved SSR compatibility for Next.js applications
             - Better TypeScript support and type definitions
-
+            
             ### 🐛 Bug Fixes
             - Fixed hydration mismatches in SSR environments
             - Resolved image resize event handling issues
             - Improved NodeViewWrapper integration
-
+            
             ### 📦 Installation
             ```bash
             npm install zenith-editor@${{ env.NEW_VERSION }}
@@ -154,22 +166,17 @@ jobs:
             # or
             yarn add zenith-editor@${{ env.NEW_VERSION }}
             ```
-
-            ### 📚 Documentation
-            - [API Reference](https://github.com/amitjha329/zenith-editor-monorepo/blob/main/packages/zenith-editor/README.md)
-            - [Migration Guide](https://github.com/amitjha329/zenith-editor-monorepo/blob/main/docs/migration.md)
-
+            
+            ### 🔗 Links
+            - [📚 Documentation](https://github.com/amitjha329/zenith-editor-monorepo#readme)
+            - [🐛 Report Issues](https://github.com/amitjha329/zenith-editor-monorepo/issues)
+            - [💬 Discussions](https://github.com/amitjha329/zenith-editor-monorepo/discussions)
+            
             **Full Changelog**: https://github.com/amitjha329/zenith-editor-monorepo/compare/v${{ env.PREVIOUS_VERSION }}...v${{ env.NEW_VERSION }}
           draft: false
           prerelease: ${{ contains(env.NEW_VERSION, 'alpha') || contains(env.NEW_VERSION, 'beta') || contains(env.NEW_VERSION, 'rc') }}
 
-  notify:
-    name: 📢 Notify Success
-    runs-on: ubuntu-latest
-    needs: publish
-    if: success()
-    steps:
-      - name: 📢 Success notification
+      - name: 🎉 Success message
         run: |
           echo "🎉 Successfully published zenith-editor@${{ env.NEW_VERSION }} to NPM!"
           echo "📦 Package: https://www.npmjs.com/package/zenith-editor"

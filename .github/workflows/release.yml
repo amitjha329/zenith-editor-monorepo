@@ -54,7 +54,36 @@ jobs:
         run: |
           cd packages/zenith-editor
           OLD_VERSION=$(node -p "require('./package.json').version")
-          pnpm version ${{ github.event.inputs.release-type }} --no-git-tag-version
+          
+          # Use Node.js to update version instead of pnpm version to avoid workspace issues
+          node -e "
+            const fs = require('fs');
+            const path = './package.json';
+            const pkg = JSON.parse(fs.readFileSync(path, 'utf8'));
+            const [major, minor, patch] = pkg.version.split('.').map(Number);
+            
+            let newVersion;
+            switch('${{ github.event.inputs.release-type }}') {
+              case 'major':
+                newVersion = (major + 1) + '.0.0';
+                break;
+              case 'minor':
+                newVersion = major + '.' + (minor + 1) + '.0';
+                break;
+              case 'patch':
+                newVersion = major + '.' + minor + '.' + (patch + 1);
+                break;
+              case 'prerelease':
+                newVersion = major + '.' + minor + '.' + (patch + 1) + '-alpha.1';
+                break;
+              default:
+                throw new Error('Invalid release type');
+            }
+            
+            pkg.version = newVersion;
+            fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n');
+          "
+          
           NEW_VERSION=$(node -p "require('./package.json').version")
           echo "old_version=$OLD_VERSION" >> $GITHUB_OUTPUT
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
@@ -65,7 +94,17 @@ jobs:
           cd packages/zenith-editor
           NEW_VERSION=$(node -p "require('./package.json').version")
           cd ../..
-          npm version $NEW_VERSION --no-git-tag-version
+          
+          # Use Node.js to update root package.json version
+          node -e "
+            const fs = require('fs');
+            const path = './package.json';
+            const pkg = JSON.parse(fs.readFileSync(path, 'utf8'));
+            pkg.version = process.env.NEW_VERSION;
+            fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n');
+          "
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.new_version }}
 
       - name: 📝 Generate changelog
         id: changelog

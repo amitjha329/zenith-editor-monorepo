@@ -188,6 +188,12 @@ pnpm prerelease
 - Make sure version in `packages/zenith-editor/package.json` matches git tags
 - Use semantic versioning (e.g., 1.0.0, 1.1.0, 2.0.0)
 
+### Workspace dependency issues
+
+- The workflows use Node.js scripts instead of `pnpm version` to avoid conflicts with workspace dependencies
+- If you see "Unsupported URL Type workspace:" errors, the workflows have been updated to handle this automatically
+- Version bumping is done programmatically to ensure compatibility with monorepo structure
+
 ## 📝 Notes
 
 - All workflows use pnpm for faster, more reliable builds

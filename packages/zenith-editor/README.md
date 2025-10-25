@@ -1,6 +1,6 @@
 # Zenith Editor
 
-A modern, production-ready WYSIWYG editor built with React, TypeScript, and Tiptap. Perfect for Next.js applications with full SSR support.
+A modern, production-ready WYSIWYG editor built with React, TypeScript, and Tiptap. Perfect for Next.js applications with full SSR support and comprehensive font management.
 
 ## ✨ Features
 
@@ -11,10 +11,15 @@ A modern, production-ready WYSIWYG editor built with React, TypeScript, and Tipt
 - 🎯 **Lightweight**: Only open-source dependencies, no vendor lock-in
 - 🧩 **Extensible**: Built on Tiptap for maximum customization
 - 🎨 **Tailwind CSS**: Styled with Tailwind for easy customization
+- ✨ **Font Selector**: Built-in font selector with system and custom fonts
 
 ### Built-in Features
 
+- **🎨 Font Selection**: Intuitive font selector dropdown with system fonts and custom font integration
 - **Text Formatting**: Bold, Italic, Underline, Strikethrough
+- **Custom Font Loading**: Load fonts using FontFace Web API with fallback support
+- **Content Styling**: Custom fonts, colors, spacing, and typography
+- **Multi-language Support**: Full Unicode support with custom font loading
 - **Headings**: H1, H2, H3 with proper hierarchy
 - **Lists**: Ordered and unordered lists
 - **Links**: Easy link creation and editing with popup dialog
@@ -188,6 +193,11 @@ function EditorWithImageUpload() {
 | `containerClassName` | `string`                                | `undefined`         | Additional CSS class for the container        |
 | `editorClassName`    | `string`                                | `undefined`         | Additional CSS class for the editor content   |
 | `style`              | `React.CSSProperties`                   | `undefined`         | Inline styles for the container               |
+| `contentStyle`       | `React.CSSProperties`                   | `undefined`         | Inline styles for the editor content         |
+| `customFonts`        | `CustomFontDefinition[]`                | `[]`                | Custom fonts to load using FontFace API      |
+| `fontLoadOptions`    | `FontLoadOptions`                       | `{}`                | Options for font loading behavior             |
+| `onFontsLoaded`      | `(fonts: string[]) => void`             | `undefined`         | Callback when fonts are successfully loaded   |
+| `onFontLoadError`    | `(error) => void`                       | `undefined`         | Callback when font loading fails             |
 | `onUpdate`           | `(props) => void`                       | `undefined`         | Callback when content changes                 |
 | `onImageUpload`      | `(file: File) => Promise<string>`       | `undefined`         | Custom image upload handler                   |
 | `extensions`         | `Extension[]`                           | `[]`                | Additional Tiptap extensions                  |
@@ -290,6 +300,241 @@ function EditorWithRef() {
 
 ## 🎨 Customization
 
+### Content Styling
+
+Customize the appearance of your editor content with the `contentStyle` prop. This allows you to apply custom fonts, colors, spacing, and other CSS properties directly to the editor content:
+
+```tsx
+import { ZenithEditor } from 'zenith-editor';
+
+function StyledEditor() {
+  return (
+    <ZenithEditor
+      initialContent="<h2>Custom Styled Content</h2><p>This content has custom styling applied.</p>"
+      contentStyle={{
+        fontFamily: 'Georgia, serif',
+        fontSize: '18px',
+        lineHeight: '1.8',
+        color: '#2c3e50',
+        letterSpacing: '0.5px'
+      }}
+    />
+  );
+}
+```
+
+#### Content Styling Examples
+
+**Elegant Serif Style:**
+```tsx
+<ZenithEditor
+  contentStyle={{
+    fontFamily: 'Georgia, "Times New Roman", serif',
+    fontSize: '16px',
+    lineHeight: '1.7',
+    color: '#2c3e50'
+  }}
+/>
+```
+
+**Modern Sans-Serif Style:**
+```tsx
+<ZenithEditor
+  contentStyle={{
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    fontSize: '15px',
+    lineHeight: '1.6',
+    color: '#374151',
+    letterSpacing: '0.025em'
+  }}
+/>
+```
+
+**Developer/Technical Style:**
+```tsx
+<ZenithEditor
+  contentStyle={{
+    fontFamily: '"JetBrains Mono", "Fira Code", Consolas, monospace',
+    fontSize: '14px',
+    lineHeight: '1.5',
+    color: '#1f2937',
+    backgroundColor: '#f8fafc'
+  }}
+/>
+```
+
+**Creative/Artistic Style:**
+```tsx
+<ZenithEditor
+  contentStyle={{
+    fontFamily: '"Playfair Display", Georgia, serif',
+    fontSize: '17px',
+    lineHeight: '1.8',
+    color: '#7c3aed',
+    textAlign: 'center'
+  }}
+/>
+```
+
+The `contentStyle` prop accepts any valid CSS properties and applies them to the editor content area, giving you complete control over the visual appearance of your text.
+
+### Custom Font Loading
+
+Zenith Editor supports loading custom fonts using the modern FontFace Web API. This allows you to use any web font, including Google Fonts, Adobe Fonts, or your own hosted font files.
+
+#### Basic Font Loading
+
+```tsx
+import { ZenithEditor } from 'zenith-editor';
+
+function EditorWithCustomFont() {
+  return (
+    <ZenithEditor
+      initialContent="<p>This text uses a custom font!</p>"
+      customFonts={[
+        {
+          fontFamily: 'Roboto',
+          src: 'https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2',
+          format: 'woff2',
+          fontDisplay: 'swap'
+        }
+      ]}
+      contentStyle={{
+        fontFamily: 'Roboto, sans-serif',
+        fontSize: '16px'
+      }}
+    />
+  );
+}
+```
+
+#### Multiple Font Weights and Styles
+
+```tsx
+<ZenithEditor
+  customFonts={[
+    {
+      fontFamily: 'Inter',
+      src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
+      fontWeight: '400',
+      fontStyle: 'normal'
+    },
+    {
+      fontFamily: 'Inter',
+      src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiJ-Ek-_EeA.woff2',
+      fontWeight: '700',
+      fontStyle: 'normal'
+    },
+    {
+      fontFamily: 'Inter',
+      src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiJ-Ek-_EeA.woff2',
+      fontWeight: '400',
+      fontStyle: 'italic'
+    }
+  ]}
+  contentStyle={{ fontFamily: 'Inter, sans-serif' }}
+/>
+```
+
+#### Local Font Files
+
+```tsx
+<ZenithEditor
+  customFonts={[
+    {
+      fontFamily: 'MyCustomFont',
+      src: '/fonts/my-custom-font.woff2',
+      format: 'woff2'
+    },
+    {
+      fontFamily: 'HindiFont',
+      src: '/fonts/hindi_font.ttf',
+      format: 'truetype',
+      unicodeRange: 'U+0900-097F' // Devanagari script
+    }
+  ]}
+  contentStyle={{
+    fontFamily: 'MyCustomFont, sans-serif'
+  }}
+/>
+```
+
+#### Font Loading Configuration
+
+```tsx
+<ZenithEditor
+  customFonts={[
+    {
+      fontFamily: 'CustomFont',
+      src: '/fonts/custom.woff2',
+      fontDisplay: 'swap', // or 'block', 'fallback', 'optional'
+      fontWeight: 'normal',
+      fontStyle: 'normal'
+    }
+  ]}
+  fontLoadOptions={{
+    autoLoad: true,     // Load fonts automatically (default: true)
+    timeout: 10000,     // Timeout in milliseconds (default: 5000)
+    testString: 'ABC'   // Test string for loading detection
+  }}
+  onFontsLoaded={(fonts) => {
+    console.log('Successfully loaded fonts:', fonts);
+  }}
+  onFontLoadError={(error) => {
+    console.error('Font loading failed:', error);
+  }}
+/>
+```
+
+#### Advanced Font Loading with Hooks
+
+For more control over font loading, use the font loading hooks:
+
+```tsx
+import { useFontLoader, ZenithEditor } from 'zenith-editor';
+
+function AdvancedFontExample() {
+  const {
+    state,
+    loadFont,
+    isFontLoaded,
+    getLoadedFonts
+  } = useFontLoader([
+    {
+      fontFamily: 'Poppins',
+      src: 'https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrFJDUc1NECPY.woff2'
+    }
+  ]);
+
+  const handleLoadAdditionalFont = async () => {
+    await loadFont({
+      fontFamily: 'Montserrat',
+      src: 'https://fonts.gstatic.com/s/montserrat/v25/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2'
+    });
+  };
+
+  return (
+    <div>
+      <div className="mb-4">
+        <p>Loading: {state.isLoading ? 'Yes' : 'No'}</p>
+        <p>Loaded fonts: {getLoadedFonts().join(', ')}</p>
+        <button onClick={handleLoadAdditionalFont}>
+          Load Additional Font
+        </button>
+      </div>
+      
+      <ZenithEditor
+        contentStyle={{
+          fontFamily: isFontLoaded('Poppins') 
+            ? 'Poppins, sans-serif' 
+            : 'sans-serif'
+        }}
+      />
+    </div>
+  );
+}
+```
+
 ### Custom Styling
 
 The editor uses Tailwind CSS classes that can be customized:
@@ -378,6 +623,101 @@ function EditorWithCustomExtensions() {
     />
   );
 }
+```
+
+## 🔤 Font Utilities
+
+Zenith Editor provides utility functions for working with custom fonts:
+
+### FontLoader Class
+
+```tsx
+import { FontLoader } from 'zenith-editor';
+
+const fontLoader = FontLoader.getInstance();
+
+// Check if FontFace API is supported
+if (FontLoader.isSupported()) {
+  // Load a single font
+  const result = await fontLoader.loadFont({
+    fontFamily: 'MyFont',
+    src: '/fonts/myfont.woff2'
+  });
+
+  // Load multiple fonts
+  const results = await fontLoader.loadFonts([
+    { fontFamily: 'Font1', src: '/fonts/font1.woff2' },
+    { fontFamily: 'Font2', src: '/fonts/font2.woff2' }
+  ]);
+
+  // Check if font is loaded
+  if (fontLoader.isFontLoaded('MyFont')) {
+    console.log('Font is ready to use');
+  }
+
+  // Get all loaded fonts
+  const loadedFonts = fontLoader.getLoadedFonts();
+
+  // Remove a font
+  fontLoader.removeFont('MyFont');
+
+  // Clear all fonts
+  fontLoader.clearAllFonts();
+}
+```
+
+### Standalone Font Loading
+
+```tsx
+import { loadCustomFont, loadCustomFonts } from 'zenith-editor';
+
+// Load a single font
+const result = await loadCustomFont({
+  fontFamily: 'CustomFont',
+  src: '/fonts/custom.woff2',
+  fontDisplay: 'swap'
+});
+
+if (result.status === 'loaded') {
+  console.log('Font loaded successfully');
+} else {
+  console.error('Font loading failed:', result.error);
+}
+
+// Load multiple fonts
+const results = await loadCustomFonts([
+  { fontFamily: 'Font1', src: '/fonts/font1.woff2' },
+  { fontFamily: 'Font2', src: '/fonts/font2.woff2' }
+]);
+
+results.forEach(result => {
+  console.log(`${result.fontFamily}: ${result.status}`);
+});
+```
+
+### CSS Generation
+
+```tsx
+import { FontLoader } from 'zenith-editor';
+
+// Generate CSS @font-face rule
+const cssRule = FontLoader.createCSSFontFace({
+  fontFamily: 'MyFont',
+  src: '/fonts/myfont.woff2',
+  fontWeight: '400',
+  fontStyle: 'normal'
+});
+
+console.log(cssRule);
+// Output:
+// @font-face {
+//   font-family: 'MyFont';
+//   src: url('/fonts/myfont.woff2') format('woff2');
+//   font-weight: 400;
+//   font-style: normal;
+//   font-stretch: normal;
+//   font-display: swap;
+// }
 ```
 
 ## 🧪 Testing

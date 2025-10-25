@@ -223,6 +223,10 @@ export default function HomePage() {
                   onUpdate={handleContentUpdate}
                   onImageUpload={handleImageUpload}
                   containerClassName="min-h-[400px]"
+                  contentStyle={{
+                    color:"red"
+                    
+                  }}
                 />
               </div>
             </div>
@@ -281,6 +285,211 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* Custom Fonts Demo */}
+          <div className="lg:col-span-3 mt-8">
+            <div className="bg-white rounded-lg shadow-sm">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">Custom Fonts</h2>
+                <p className="text-gray-600 mt-1">
+                  Load and use custom fonts in your editor content using the FontFace Web API
+                </p>
+                <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                  <p className="text-blue-800 text-sm">
+                    💡 <strong>New Feature:</strong> Use the font selector in the toolbar to easily switch between available fonts while editing!
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Google Fonts Example */}
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Google Fonts Integration</h3>
+                  <ZenithEditor
+                    initialContent="<h2>Custom Font Demo</h2><p>This editor uses a custom font loaded via the FontFace Web API. You can load fonts from Google Fonts, Adobe Fonts, or your own hosted font files.</p>"
+                    placeholder="Start typing with custom fonts..."
+                    contentStyle={{
+                      fontFamily: 'Roboto, sans-serif',
+                      fontSize: '15px',
+                      lineHeight: '1.6'
+                    }}
+                    containerClassName="min-h-[250px]"
+                  />
+                </div>
+
+                {/* Multiple Font Weights Example */}
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Multiple Font Weights</h3>
+                  <ZenithEditor
+                    initialContent="<h2>Font Weight Variations</h2><p>This demonstrates loading multiple weights of the same font family for richer typography.</p><p><strong>Bold text</strong> and <em>italic text</em> use different font weights.</p>"
+                    placeholder="Type with multiple font weights..."
+                    customFonts={[
+                      {
+                        fontFamily: 'Inter',
+                        src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
+                        format: 'woff2',
+                        fontWeight: '400',
+                        fontDisplay: 'swap'
+                      },
+                      {
+                        fontFamily: 'Inter',
+                        src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiJ-Ek-_EeA.woff2',
+                        format: 'woff2',
+                        fontWeight: '700',
+                        fontDisplay: 'swap'
+                      }
+                    ]}
+                    contentStyle={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '14px',
+                      lineHeight: '1.5'
+                    }}
+                    containerClassName="min-h-[250px]"
+                  />
+                </div>
+
+                {/* Custom Local Font Example */}
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Local Font Files</h3>
+                  <ZenithEditor
+                    initialContent="<h2>Hindi Font Example</h2><p>यह एक कस्टम हिंदी फॉन्ट का उदाहरण है। Custom fonts can support various languages and scripts.</p><p>This demonstrates loading fonts from your local server or CDN.</p>"
+                    placeholder="Type in multiple languages..."
+                    customFonts={[
+                      {
+                        fontFamily: 'HindiFont',
+                        src: '/fonts/hindi_font.ttf',
+                        format: 'truetype',
+                        fontDisplay: 'swap'
+                      }
+                    ]}
+                    contentStyle={{
+                      fontFamily: 'HindiFont, Noto Sans Devanagari, sans-serif',
+                      fontSize: '16px',
+                      lineHeight: '1.7'
+                    }}
+                    containerClassName="min-h-[250px]"
+                    onFontsLoaded={(fonts) => console.log('Fonts loaded:', fonts)}
+                    onFontLoadError={(error) => console.warn('Font load error:', error)}
+                  />
+                </div>
+
+                {/* Font Loading Status Example */}
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Font Loading Status</h3>
+                  <div className="space-y-4">
+                    <ZenithEditor
+                      initialContent="<h2>Font Loading Demo</h2><p>This editor shows how to handle font loading states and errors. Check the console for loading status updates.</p>"
+                      placeholder="Font loading example..."
+                      customFonts={[
+                        {
+                          fontFamily: 'Poppins',
+                          src: 'https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrFJDUc1NECPY.woff2',
+                          format: 'woff2',
+                          fontDisplay: 'swap'
+                        }
+                      ]}
+                      contentStyle={{
+                        fontFamily: 'Poppins, sans-serif',
+                        fontSize: '15px',
+                        lineHeight: '1.6'
+                      }}
+                      containerClassName="min-h-[250px]"
+                      fontLoadOptions={{
+                        timeout: 10000,
+                        testString: 'ABC'
+                      }}
+                    />
+                    <div className="text-sm text-gray-600">
+                      <p>• Fonts are loaded automatically when the editor mounts</p>
+                      <p>• Loading status and errors are logged to console</p>
+                      <p>• Fallback fonts are used until custom fonts load</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Content Styling Demo */}
+          <div className="lg:col-span-3 mt-8">
+            <div className="bg-white rounded-lg shadow-sm">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">Content Styling Options</h2>
+                <p className="text-gray-600 mt-1">
+                  Customize the appearance of your editor content with custom styles
+                </p>
+              </div>
+
+              <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Elegant Serif Style */}
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Elegant Serif</h3>
+                  <ZenithEditor
+                    initialContent="<h2>Elegant Typography</h2><p>This editor uses Georgia serif font with comfortable line spacing for a classic, readable appearance perfect for articles and blogs.</p>"
+                    placeholder="Start typing with elegant typography..."
+                    contentStyle={{
+                      fontFamily: 'Georgia, "Times New Roman", serif',
+                      fontSize: '16px',
+                      lineHeight: '1.7',
+                      color: '#2c3e50'
+                    }}
+                    containerClassName="min-h-[250px]"
+                  />
+                </div>
+
+                {/* Modern Sans-Serif Style */}
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Modern Sans-Serif</h3>
+                  <ZenithEditor
+                    initialContent="<h2>Clean & Modern</h2><p>A contemporary look with system fonts, optimized for readability across all devices and platforms.</p>"
+                    placeholder="Start typing with modern typography..."
+                    contentStyle={{
+                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                      fontSize: '15px',
+                      lineHeight: '1.6',
+                      color: '#ff0000',
+                      letterSpacing: '0.025em'
+                    }}
+                    containerClassName="min-h-[250px]"
+                  />
+                </div>
+
+                {/* Code-Friendly Style */}
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Developer Style</h3>
+                  <ZenithEditor
+                    initialContent="<h2>Code Documentation</h2><p>Perfect for technical writing with monospace influences and syntax-friendly styling for developers.</p><pre><code>console.log('Hello, World!');</code></pre>"
+                    placeholder="Start typing technical content..."
+                    contentStyle={{
+                      fontFamily: '"JetBrains Mono", "Fira Code", Consolas, monospace',
+                      fontSize: '14px',
+                      lineHeight: '1.5',
+                      color: '#1f2937',
+                      backgroundColor: '#f8fafc'
+                    }}
+                    containerClassName="min-h-[250px]"
+                  />
+                </div>
+
+                {/* Creative Style */}
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-3">Creative Style</h3>
+                  <ZenithEditor
+                    initialContent="<h2>Creative Writing</h2><p>Artistic and expressive styling with custom colors and spacing, perfect for creative content and storytelling.</p>"
+                    placeholder="Start your creative writing..."
+                    contentStyle={{
+                      fontFamily: '"Playfair Display", Georgia, serif',
+                      fontSize: '17px',
+                      lineHeight: '1.8',
+                      color: '#7c3aed',
+                      textAlign: 'center' as const
+                    }}
+                    containerClassName="min-h-[250px]"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm">
@@ -327,6 +536,14 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-center">
                     <span className="text-green-500 mr-2">✓</span>
+                    Custom font loading (FontFace API)
+                  </li>
+                  <li className="flex items-center">
+                    <span className="text-green-500 mr-2">✓</span>
+                    Custom content styling
+                  </li>
+                  <li className="flex items-center">
+                    <span className="text-green-500 mr-2">✓</span>
                     Headings (H1, H2, H3)
                   </li>
                   <li className="flex items-center">
@@ -356,6 +573,10 @@ export default function HomePage() {
                   <li className="flex items-center">
                     <span className="text-green-500 mr-2">✓</span>
                     Drag & drop images
+                  </li>
+                  <li className="flex items-center">
+                    <span className="text-green-500 mr-2">✓</span>
+                    Multi-language font support
                   </li>
                   <li className="flex items-center">
                     <span className="text-green-500 mr-2">✓</span>

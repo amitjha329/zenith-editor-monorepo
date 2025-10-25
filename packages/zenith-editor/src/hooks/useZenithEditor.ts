@@ -2,6 +2,8 @@ import { useEditor, Editor } from '@tiptap/react';
 import { JSONContent } from '@tiptap/core';
 import { useCallback, useEffect } from 'react';
 import { defaultExtensions, PlaceholderExtension } from '../extensions';
+import { CustomFontDefinition } from '../utils/fontLoader';
+import { useFontLoader } from './useFontLoader';
 
 /**
  * Configuration options for the Zenith Editor
@@ -27,6 +29,23 @@ export interface ZenithEditorOptions {
   className?: string;
   /** Whether to automatically focus the editor on mount */
   autoFocus?: boolean | 'start' | 'end' | number;
+  /** Custom styles for the editor content - allows customization of fonts, colors, spacing, etc. */
+  contentStyle?: React.CSSProperties;
+  /** Custom fonts to load and use in the editor */
+  customFonts?: CustomFontDefinition[];
+  /** Options for font loading behavior */
+  fontLoadOptions?: {
+    /** Auto-load fonts on mount (default: true) */
+    autoLoad?: boolean;
+    /** Timeout for font loading in milliseconds (default: 5000) */
+    timeout?: number;
+    /** Test string for font loading detection (default: 'BESbswy') */
+    testString?: string;
+  };
+  /** Callback fired when fonts are loaded */
+  onFontsLoaded?: (loadedFonts: string[]) => void;
+  /** Callback fired when font loading fails */
+  onFontLoadError?: (error: { fontFamily: string; error: string }) => void;
 }
 
 /**
@@ -54,6 +73,11 @@ export interface ZenithEditorOptions {
  *     const { url } = await response.json();
  *     return url;
  *   },
+ *   contentStyle: {
+ *     fontFamily: 'Inter, sans-serif',
+ *     fontSize: '14px',
+ *     lineHeight: '1.5'
+ *   }
  * });
  * ```
  */
@@ -66,7 +90,33 @@ export function useZenithEditor(options: ZenithEditorOptions = {}) {
     onImageUpload,
     extensions: customExtensions = [],
     autoFocus = false,
+    customFonts = [],
+    fontLoadOptions = {},
+    onFontsLoaded,
+    onFontLoadError,
   } = options;
+
+  // Initialize font loader
+  const fontLoader = useFontLoader(customFonts, {
+    autoLoad: fontLoadOptions.autoLoad ?? true,
+    timeout: fontLoadOptions.timeout ?? 5000,
+    testString: fontLoadOptions.testString ?? 'BESbswy',
+  });
+
+  // Handle font loading callbacks
+  useEffect(() => {
+    if (onFontsLoaded && fontLoader.state.loaded.length > 0) {
+      onFontsLoaded(fontLoader.state.loaded);
+    }
+  }, [fontLoader.state.loaded, onFontsLoaded]);
+
+  useEffect(() => {
+    if (onFontLoadError && fontLoader.state.failed.length > 0) {
+      fontLoader.state.failed.forEach(failed => {
+        onFontLoadError(failed);
+      });
+    }
+  }, [fontLoader.state.failed, onFontLoadError]);
 
   // Combine default extensions with custom ones
   const allExtensions = [
@@ -243,5 +293,15 @@ export function useZenithEditor(options: ZenithEditorOptions = {}) {
     undo,
     redo,
     handleImageUpload,
+    // Font loading functionality
+    fontLoader,
+    loadFont: fontLoader.loadFont,
+    loadFonts: fontLoader.loadFonts,
+    isFontLoaded: fontLoader.isFontLoaded,
+    getLoadedFonts: fontLoader.getLoadedFonts,
+    removeFont: fontLoader.removeFont,
+    clearAllFonts: fontLoader.clearAllFonts,
+    isFontSupported: fontLoader.isSupported,
+    createCSSFontFace: fontLoader.createCSSFontFace,
   };
 }

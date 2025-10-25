@@ -1,7 +1,7 @@
 {
   "name": "zenith-editor",
-  "version": "1.2.0",
-  "description": "A modern, production-ready WYSIWYG editor built with React and TypeScript",
+  "version": "1.3.2",
+  "description": "A modern, production-ready WYSIWYG editor built with React and TypeScript featuring font selection, custom font loading, and comprehensive rich text editing capabilities",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -15,7 +15,9 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "sideEffects": [
     "*.css"
@@ -27,7 +29,14 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "prepublishOnly": "pnpm build"
+    "test:core": "jest --testPathIgnorePatterns=fontLoader",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "prepublishOnly": "pnpm run clean && pnpm run build && pnpm run test:core && pnpm run type-check",
+    "publish:dry-run": "npm publish --dry-run",
+    "publish:beta": "npm publish --tag beta",
+    "publish:latest": "npm publish"
   },
   "keywords": [
     "react",
@@ -37,13 +46,19 @@
     "tiptap",
     "typescript",
     "nextjs",
-    "ssr"
+    "ssr",
+    "font-selector",
+    "custom-fonts",
+    "font-loading",
+    "typography",
+    "text-editor",
+    "markdown"
   ],
   "author": "Zenith Editor Team",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/amitjha329/zenith-editor.git"
+    "url": "git+https://github.com/amitjha329/zenith-editor.git"
   },
   "bugs": {
     "url": "https://github.com/amitjha329/zenith-editor/issues"
@@ -61,6 +76,7 @@
     "@tiptap/extension-code-block-lowlight": "^2.2.4",
     "@tiptap/extension-document": "^2.2.4",
     "@tiptap/extension-dropcursor": "^2.2.4",
+    "@tiptap/extension-font-family": "^2.26.4",
     "@tiptap/extension-gapcursor": "^2.2.4",
     "@tiptap/extension-hard-break": "^2.2.4",
     "@tiptap/extension-heading": "^2.2.4",
@@ -73,6 +89,7 @@
     "@tiptap/extension-paragraph": "^2.2.4",
     "@tiptap/extension-strike": "^2.2.4",
     "@tiptap/extension-text": "^2.2.4",
+    "@tiptap/extension-text-style": "^2.26.4",
     "@tiptap/extension-underline": "^2.2.4",
     "@tiptap/pm": "^2.2.4",
     "@tiptap/react": "^2.2.4",

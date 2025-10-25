@@ -6,6 +6,7 @@ import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import Underline from '@tiptap/extension-underline';
 import Strike from '@tiptap/extension-strike';
+import FontFamily from '@tiptap/extension-font-family';
 import Heading from '@tiptap/extension-heading';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
@@ -19,10 +20,11 @@ import Gapcursor from '@tiptap/extension-gapcursor';
 import Dropcursor from '@tiptap/extension-dropcursor';
 import { createLowlight } from 'lowlight';
 import { ImageResizeExtension } from './image-resize';
+import { TextStyle } from '@tiptap/extension-text-style';
 
 // Create lowlight instance
 export const lowlight = createLowlight();
-
+``
 // Register common languages for syntax highlighting
 // Use dynamic imports to avoid bundling issues
 const registerLanguages = async () => {
@@ -88,6 +90,12 @@ export const defaultExtensions = [
     HTMLAttributes: {
       class: 'zenith-strike',
     },
+  }),
+
+  // Text styling extensions for font family support
+  TextStyle,
+  FontFamily.configure({
+    types: ['textStyle'],
   }),
 
   // Headings

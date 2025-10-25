@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Editor } from '@tiptap/react';
 import classNames from 'classnames';
+import { FontSelector } from './FontSelector';
 
 /**
  * Props for the Toolbar component
@@ -12,6 +13,8 @@ export interface ToolbarProps {
   className?: string;
   /** Callback for handling image uploads */
   onImageUpload?: (file: File) => Promise<string>;
+  /** List of loaded custom fonts for font selector */
+  loadedFonts?: string[];
 }
 
 /**
@@ -20,7 +23,7 @@ export interface ToolbarProps {
  * @param props - Toolbar component props
  * @returns JSX element representing the toolbar
  */
-export function Toolbar({ editor, className, onImageUpload }: ToolbarProps) {
+export function Toolbar({ editor, className, onImageUpload, loadedFonts = [] }: ToolbarProps) {
   const [showLinkDialog, setShowLinkDialog] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -103,6 +106,18 @@ export function Toolbar({ editor, className, onImageUpload }: ToolbarProps) {
         className
       )}
     >
+      {/* Font Selector */}
+      <div className="flex items-center gap-1 border-r border-gray-200 pr-2">
+        <FontSelector 
+          editor={editor} 
+          loadedFonts={loadedFonts}
+          onFontSelect={(fontFamily) => {
+            // Optional callback for when font is selected
+            console.log('Font selected:', fontFamily);
+          }}
+        />
+      </div>
+
       {/* Text Formatting */}
       <div className="flex items-center gap-1 border-r border-gray-200 pr-2">
         <button

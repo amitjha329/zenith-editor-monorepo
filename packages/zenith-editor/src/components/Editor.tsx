@@ -14,6 +14,7 @@ export interface ZenithEditorProps extends ZenithEditorOptions {
   toolbar?: React.ComponentType<{
     editor: any;
     onImageUpload?: (file: File) => Promise<string>;
+    loadedFonts?: string[];
   }>;
   /** Additional CSS class names for the container */
   containerClassName?: string;
@@ -71,6 +72,12 @@ export interface ZenithEditorRef {
  *         // Upload logic here
  *         return 'https://example.com/image.jpg';
  *       }}
+ *       contentStyle={{
+ *         fontFamily: 'Georgia, serif',
+ *         fontSize: '16px',
+ *         lineHeight: '1.6',
+ *         color: '#333'
+ *       }}
  *     />
  *   );
  * }
@@ -84,6 +91,7 @@ export const ZenithEditor = forwardRef<ZenithEditorRef, ZenithEditorProps>(
       containerClassName,
       editorClassName,
       style,
+      contentStyle,
       onImageUpload,
       ...editorOptions
     },
@@ -102,6 +110,7 @@ export const ZenithEditor = forwardRef<ZenithEditorRef, ZenithEditorProps>(
       isFocused,
       canUndo,
       canRedo,
+      getLoadedFonts,
     } = useZenithEditor(editorOptions);
 
     // Expose editor methods through ref
@@ -152,7 +161,11 @@ export const ZenithEditor = forwardRef<ZenithEditorRef, ZenithEditorProps>(
       >
         {showToolbar && (
           <div className="zenith-editor-toolbar-wrapper border-b border-gray-200">
-            <ToolbarComponent editor={editor} onImageUpload={onImageUpload} />
+            <ToolbarComponent 
+              editor={editor} 
+              onImageUpload={onImageUpload} 
+              loadedFonts={getLoadedFonts ? getLoadedFonts() : []} 
+            />
           </div>
         )}
 
@@ -164,6 +177,7 @@ export const ZenithEditor = forwardRef<ZenithEditorRef, ZenithEditorProps>(
               'prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto focus:outline-none',
               editorClassName
             )}
+            style={contentStyle}
           />
         </div>
       </div>

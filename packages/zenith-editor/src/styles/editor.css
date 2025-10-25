@@ -12,6 +12,11 @@
 /* Editor Content */
 .zenith-editor-content-wrapper {
   @apply p-4 focus:outline-none;
+  /* Default content styling that can be overridden by contentStyle prop */
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
 }
 
 .zenith-editor-content {

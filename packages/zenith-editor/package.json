@@ -1,6 +1,6 @@
 {
   "name": "zenith-editor",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A modern, production-ready WYSIWYG editor built with React and TypeScript featuring font selection, custom font loading, and comprehensive rich text editing capabilities",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

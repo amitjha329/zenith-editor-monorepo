@@ -29,15 +29,19 @@ export default function HomePage() {
     <h1>Welcome to Zenith Editor! 🚀</h1>
     <p>This is a powerful, modern WYSIWYG editor built with React and TypeScript. Here are some features you can try:</p>
     
-    <h2>Text Formatting</h2>
+    <h2>Text Formatting & Colors</h2>
     <p>You can make text <strong>bold</strong>, <em>italic</em>, <u>underlined</u>, or <s>strikethrough</s>.</p>
+    <p>Select text and use the <span style="color: #e74c3c">color picker</span> to add <span style="color: #3498db">beautiful colors</span>!</p>
+    
+    <h2>Font Selection</h2>
+    <p>Choose from <span style="font-family: Georgia, serif">different font families</span> using the font selector in the toolbar.</p>
     
     <h2>Lists</h2>
     <p>Create ordered lists:</p>
     <ol>
-      <li>First item</li>
-      <li>Second item</li>
-      <li>Third item</li>
+      <li><span style="color: #2ecc71">Green item</span></li>
+      <li><span style="color: #f39c12">Orange item</span></li>
+      <li><span style="color: #9b59b6">Purple item</span></li>
     </ol>
     
     <p>Or unordered lists:</p>
@@ -49,7 +53,7 @@ export default function HomePage() {
     
     <h2>Blockquotes</h2>
     <blockquote>
-      <p>This is a beautiful blockquote that you can use to highlight important text or quotes.</p>
+      <p>This is a beautiful blockquote that you can use to highlight <span style="color: #34495e">important text or quotes</span>.</p>
     </blockquote>
     
     <h2>Code Blocks</h2>
@@ -62,7 +66,7 @@ export default function HomePage() {
     <h3>Links and Images</h3>
     <p>You can easily add <a href="https://github.com" target="_blank" rel="noopener noreferrer">links</a> and images to your content.</p>
     
-    <p><strong>Try the toolbar above to experiment with all features!</strong></p>
+    <p><strong style="color: #e67e22">Try the toolbar above to experiment with all features, including colors and fonts!</strong></p>
   `);
 
   const [jsonOutput, setJsonOutput] = useState('');
@@ -224,7 +228,9 @@ export default function HomePage() {
                   onImageUpload={handleImageUpload}
                   containerClassName="min-h-[400px]"
                   contentStyle={{
-                    color: 'red',
+                    fontSize: '16px',
+                    lineHeight: '1.6',
+                    color: '#374151',
                   }}
                 />
               </div>
@@ -427,6 +433,44 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* Color Picker Demo */}
+          <div className="lg:col-span-3 mt-8">
+            <div className="bg-white rounded-lg shadow-sm">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Text Color Selection
+                </h2>
+                <p className="text-gray-600 mt-1">
+                  Use the built-in color picker to change text colors
+                </p>
+                <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-md">
+                  <p className="text-green-800 text-sm">
+                    🎨 <strong>New Feature:</strong> Select text and use the
+                    color picker in the toolbar to apply colors. Includes
+                    predefined colors and custom color input!
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-6">
+                <ZenithEditor
+                  initialContent={`
+                    <h2>Text Color Examples</h2>
+                    <p>This is normal text. You can select any text and change its color using the color picker in the toolbar above.</p>
+                    <p>Try selecting this text and making it <span style="color: #e74c3c">red</span>, <span style="color: #3498db">blue</span>, <span style="color: #2ecc71">green</span>, or any custom color!</p>
+                    <p><span style="color: #9b59b6">Purple text</span> looks great for highlights, while <span style="color: #f39c12">orange text</span> draws attention.</p>
+                    <p>You can also <strong style="color: #e67e22">combine colors with bold</strong> or <em style="color: #1abc9c">colors with italic</em> formatting.</p>
+                    <blockquote>
+                      <p><span style="color: #34495e">Even blockquotes can have colored text to emphasize important points.</span></p>
+                    </blockquote>
+                  `}
+                  placeholder="Try selecting text and changing colors..."
+                  containerClassName="min-h-[300px]"
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Content Styling Demo */}
           <div className="lg:col-span-3 mt-8">
             <div className="bg-white rounded-lg shadow-sm">
@@ -472,7 +516,7 @@ export default function HomePage() {
                         '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                       fontSize: '15px',
                       lineHeight: '1.6',
-                      color: '#ff0000',
+                      color: '#374151',
                       letterSpacing: '0.025em',
                     }}
                     containerClassName="min-h-[250px]"
@@ -567,6 +611,14 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-center">
                     <span className="text-green-500 mr-2">✓</span>
+                    Font color picker with custom colors
+                  </li>
+                  <li className="flex items-center">
+                    <span className="text-green-500 mr-2">✓</span>
+                    Font selector with system & custom fonts
+                  </li>
+                  <li className="flex items-center">
+                    <span className="text-green-500 mr-2">✓</span>
                     Custom font loading (FontFace API)
                   </li>
                   <li className="flex items-center">
@@ -611,7 +663,7 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-center">
                     <span className="text-green-500 mr-2">✓</span>
-                    Next.js SSR compatible
+                    Next.js 16 & React 19 compatible
                   </li>
                   <li className="flex items-center">
                     <span className="text-green-500 mr-2">✓</span>

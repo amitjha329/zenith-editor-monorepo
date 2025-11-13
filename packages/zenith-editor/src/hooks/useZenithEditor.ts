@@ -138,6 +138,18 @@ export function useZenithEditor(options: ZenithEditorOptions = {}) {
         onUpdate({ editor, html, json });
       }
     },
+    onCreate: ({ editor }) => {
+      // Ensure initial content is set properly after editor creation
+      if (
+        initialContent &&
+        typeof initialContent === 'string' &&
+        initialContent.trim()
+      ) {
+        editor.commands.setContent(initialContent, false);
+      } else if (initialContent && typeof initialContent === 'object') {
+        editor.commands.setContent(initialContent, false);
+      }
+    },
     editorProps: {
       attributes: {
         'data-placeholder': placeholder,

@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2025-11-13
+
+### Added
+
+- **🎨 Text Color Picker**: New color picker component in the toolbar for text color selection
+- **🌈 Predefined Color Palette**: Built-in palette with 10 commonly used colors
+- **🎯 Custom Color Input**: HTML5 color picker for selecting any custom color
+- **🔄 Remove Color Option**: Ability to remove color formatting and revert to default
+- **📝 Color Demo Section**: New demo section showcasing color picker functionality
+
+### Fixed
+
+- **🔧 Initial Content Visibility**: Fixed issue where initial content wasn't visible for some users
+- **⚡ Editor Mounting**: Added `onCreate` callback to ensure initial content is properly set after editor creation
+- **🎨 Demo Styling**: Removed problematic red text color from demo that was confusing users
+- **📱 SSR Hydration**: Improved SSR compatibility with better content initialization
+
+### Enhanced
+
+- **📚 Updated Documentation**: Comprehensive README updates with color picker usage examples
+- **🧪 Troubleshooting Section**: Added troubleshooting guide for common issues
+- **🎯 Better Examples**: Enhanced demo content with color examples and clearer feature showcasing
+- **🔧 Framework Support**: Updated compatibility notes for Next.js 16 and React 19
+
+### Technical
+
+- Enhanced Tiptap Color extension integration
+- Improved editor initialization flow
+- Better error handling for content mounting
+- Updated TypeScript definitions for color picker props
+
+### Dependencies
+
+- Updated `@tiptap/extension-color@^2.2.4` (already included)
+- Enhanced toolbar component with color picker integration
+
 ## [1.3.4] - 2025-10-25
 
 - **Minor Changes**: Minor Bug Fixes

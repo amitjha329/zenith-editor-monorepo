@@ -5,51 +5,78 @@ class MockFontFace {
   family: string;
   source: string;
   descriptors: any;
+  status: string = 'unloaded';
+  loaded: Promise<MockFontFace>;
 
   constructor(family: string, source: string, descriptors: any = {}) {
     this.family = family;
     this.source = source;
     this.descriptors = descriptors;
+    this.loaded = Promise.resolve(this);
   }
 
   async load() {
     // Simulate font loading
     await new Promise(resolve => setTimeout(resolve, 10));
+    this.status = 'loaded';
     return this;
   }
 }
 
 // Mock document.fonts API
 const mockFonts = {
-  fonts: new Set(),
-  add: jest.fn().mockImplementation(function(font: MockFontFace) {
-    this.fonts.add(font);
+  fonts: new Set<MockFontFace>(),
+  add: jest.fn().mockImplementation((font: MockFontFace) => {
+    mockFonts.fonts.add(font);
   }),
-  delete: jest.fn().mockImplementation(function(font: MockFontFace) {
-    return this.fonts.delete(font);
+  delete: jest.fn().mockImplementation((font: MockFontFace) => {
+    return mockFonts.fonts.delete(font);
   }),
-  ready: Promise.resolve()
+  ready: Promise.resolve(),
+  clear: jest.fn().mockImplementation(() => {
+    mockFonts.fonts.clear();
+  })
 };
 
 // Setup mocks
 beforeAll(() => {
   // Mock FontFace API globally
   (global as any).FontFace = MockFontFace;
-  (global as any).document = {
-    fonts: mockFonts
+  
+  // Create a more complete document mock
+  const mockDocument = {
+    fonts: mockFonts,
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    createElement: jest.fn(() => ({
+      style: {},
+      remove: jest.fn()
+    })),
+    head: {
+      appendChild: jest.fn(),
+      removeChild: jest.fn()
+    }
   };
   
-  // Mock the isSupported check to return true
+  // Make sure FontFace is available globally
   Object.defineProperty(global, 'FontFace', {
     value: MockFontFace,
-    writable: true
+    writable: true,
+    configurable: true
   });
   
+  // Make sure document is available globally with fonts property
   Object.defineProperty(global, 'document', {
-    value: {
-      fonts: mockFonts
-    },
-    writable: true
+    value: mockDocument,
+    writable: true,
+    configurable: true
+  });
+  
+  // Also ensure window.document is available
+  Object.defineProperty(global, 'window', {
+    value: { document: mockDocument },
+    writable: true,
+    configurable: true
   });
 });
 
@@ -58,10 +85,14 @@ beforeEach(() => {
   mockFonts.fonts.clear();
   mockFonts.add.mockClear();
   mockFonts.delete.mockClear();
+  if (mockFonts.clear) mockFonts.clear.mockClear();
   
   // Clear singleton instance
-  // @ts-ignore
+  // @ts-ignore - Accessing private static property for testing
   FontLoader.instance = undefined;
+  
+  // Reset any mock implementations that might have been overridden
+  jest.restoreAllMocks();
 });
 
 describe('FontLoader', () => {
@@ -83,6 +114,9 @@ describe('FontLoader', () => {
     it('should load a single font successfully', async () => {
       const fontLoader = FontLoader.getInstance();
       
+      // Mock successful font loading
+      jest.spyOn(MockFontFace.prototype, 'load').mockResolvedValue(new MockFontFace('TestFont', 'test'));
+      
       const result = await fontLoader.loadFont({
         fontFamily: 'TestFont',
         src: '/fonts/test.woff2',
@@ -96,6 +130,9 @@ describe('FontLoader', () => {
 
     it('should return existing font if already loaded', async () => {
       const fontLoader = FontLoader.getInstance();
+      
+      // Mock successful font loading
+      jest.spyOn(MockFontFace.prototype, 'load').mockResolvedValue(new MockFontFace('TestFont', 'test'));
       
       // Load font first time
       await fontLoader.loadFont({
@@ -115,6 +152,9 @@ describe('FontLoader', () => {
 
     it('should auto-detect font format from file extension', async () => {
       const fontLoader = FontLoader.getInstance();
+      
+      // Mock successful font loading
+      jest.spyOn(MockFontFace.prototype, 'load').mockResolvedValue(new MockFontFace('TestFont', 'test'));
       
       const result = await fontLoader.loadFont({
         fontFamily: 'TestFont',
@@ -166,6 +206,11 @@ describe('FontLoader', () => {
     it('should load multiple fonts successfully', async () => {
       const fontLoader = FontLoader.getInstance();
       
+      // Mock successful font loading for all fonts
+      jest.spyOn(MockFontFace.prototype, 'load').mockImplementation(function(this: MockFontFace) {
+        return Promise.resolve(this);
+      });
+      
       const results = await fontLoader.loadFonts([
         { fontFamily: 'Font1', src: '/fonts/font1.woff2' },
         { fontFamily: 'Font2', src: '/fonts/font2.woff2' }
@@ -184,6 +229,9 @@ describe('FontLoader', () => {
       
       expect(fontLoader.isFontLoaded('TestFont')).toBe(false);
       
+      // Mock successful font loading
+      jest.spyOn(MockFontFace.prototype, 'load').mockResolvedValue(new MockFontFace('TestFont', 'test'));
+      
       await fontLoader.loadFont({
         fontFamily: 'TestFont',
         src: '/fonts/test.woff2'
@@ -197,6 +245,9 @@ describe('FontLoader', () => {
       
       expect(fontLoader.getLoadedFonts()).toEqual([]);
       
+      // Mock successful font loading
+      jest.spyOn(MockFontFace.prototype, 'load').mockResolvedValue(new MockFontFace('TestFont', 'test'));
+      
       await fontLoader.loadFont({
         fontFamily: 'TestFont',
         src: '/fonts/test.woff2'
@@ -207,6 +258,9 @@ describe('FontLoader', () => {
 
     it('should remove font', async () => {
       const fontLoader = FontLoader.getInstance();
+      
+      // Mock successful font loading
+      jest.spyOn(MockFontFace.prototype, 'load').mockResolvedValue(new MockFontFace('TestFont', 'test'));
       
       await fontLoader.loadFont({
         fontFamily: 'TestFont',
@@ -224,6 +278,11 @@ describe('FontLoader', () => {
 
     it('should clear all fonts', async () => {
       const fontLoader = FontLoader.getInstance();
+      
+      // Mock successful font loading for all fonts
+      jest.spyOn(MockFontFace.prototype, 'load').mockImplementation(function(this: MockFontFace) {
+        return Promise.resolve(this);
+      });
       
       await fontLoader.loadFonts([
         { fontFamily: 'Font1', src: '/fonts/font1.woff2' },
@@ -257,6 +316,9 @@ describe('FontLoader', () => {
 
 describe('Standalone font loading functions', () => {
   it('should load single font with loadCustomFont', async () => {
+    // Mock successful font loading
+    jest.spyOn(MockFontFace.prototype, 'load').mockResolvedValue(new MockFontFace('StandaloneFont', 'test'));
+    
     const result = await loadCustomFont({
       fontFamily: 'StandaloneFont',
       src: '/fonts/standalone.woff2'
@@ -267,6 +329,11 @@ describe('Standalone font loading functions', () => {
   });
 
   it('should load multiple fonts with loadCustomFonts', async () => {
+    // Mock successful font loading for all fonts
+    jest.spyOn(MockFontFace.prototype, 'load').mockImplementation(function(this: MockFontFace) {
+      return Promise.resolve(this);
+    });
+    
     const results = await loadCustomFonts([
       { fontFamily: 'Font1', src: '/fonts/font1.woff2' },
       { fontFamily: 'Font2', src: '/fonts/font2.woff2' }

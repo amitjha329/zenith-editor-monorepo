@@ -7,8 +7,9 @@
     "declarationMap": true,
     "sourceMap": true,
     "jsx": "react-jsx",
-    "incremental": false
+    "incremental": false,
+    "types": ["jest", "@types/jest", "@testing-library/jest-dom", "node"]
   },
   "include": ["src/**/*"],
-  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": ["dist", "node_modules"]
 }

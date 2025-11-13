@@ -25,7 +25,7 @@ import { TextStyle } from '@tiptap/extension-text-style';
 
 // Create lowlight instance
 export const lowlight = createLowlight();
-``
+``;
 // Register common languages for syntax highlighting
 // Use dynamic imports to avoid bundling issues
 const registerLanguages = async () => {

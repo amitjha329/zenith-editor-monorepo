@@ -24,7 +24,12 @@ export interface ToolbarProps {
  * @param props - Toolbar component props
  * @returns JSX element representing the toolbar
  */
-export function Toolbar({ editor, className, onImageUpload, loadedFonts = [] }: ToolbarProps) {
+export function Toolbar({
+  editor,
+  className,
+  onImageUpload,
+  loadedFonts = [],
+}: ToolbarProps) {
   const [showLinkDialog, setShowLinkDialog] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -109,8 +114,8 @@ export function Toolbar({ editor, className, onImageUpload, loadedFonts = [] }: 
     >
       {/* Font Selector and Color Picker */}
       <div className="flex items-center gap-1 border-r border-gray-200 pr-2">
-        <FontSelector 
-          editor={editor} 
+        <FontSelector
+          editor={editor}
           loadedFonts={loadedFonts}
           onFontSelect={(fontFamily) => {
             // Optional callback for when font is selected

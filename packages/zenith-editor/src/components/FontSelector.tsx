@@ -16,7 +16,7 @@ const SYSTEM_FONTS = [
   { name: 'Tahoma', value: 'Tahoma, sans-serif' },
   { name: 'Trebuchet MS', value: 'Trebuchet MS, sans-serif' },
   { name: 'Impact', value: 'Impact, sans-serif' },
-  { name: 'Comic Sans MS', value: 'Comic Sans MS, cursive' }
+  { name: 'Comic Sans MS', value: 'Comic Sans MS, cursive' },
 ];
 
 /**
@@ -36,11 +36,11 @@ export interface FontSelectorProps {
 /**
  * Font selector dropdown component for the toolbar
  */
-export function FontSelector({ 
-  editor, 
-  className, 
-  loadedFonts = [], 
-  onFontSelect 
+export function FontSelector({
+  editor,
+  className,
+  loadedFonts = [],
+  onFontSelect,
 }: FontSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentFont, setCurrentFont] = useState('');
@@ -49,7 +49,10 @@ export function FontSelector({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -75,7 +78,7 @@ export function FontSelector({
     // Listen for selection and content changes
     editor.on('selectionUpdate', updateCurrentFont);
     editor.on('transaction', updateCurrentFont);
-    
+
     // Initial update
     updateCurrentFont();
 
@@ -96,7 +99,7 @@ export function FontSelector({
       // Set the font family
       editor.chain().focus().setFontFamily(fontFamily).run();
     }
-    
+
     setIsOpen(false);
     onFontSelect?.(fontFamily);
   };
@@ -104,15 +107,15 @@ export function FontSelector({
   // Get display name for current font
   const getCurrentFontName = () => {
     if (!currentFont) return 'Default';
-    
+
     // Check system fonts first
-    const systemFont = SYSTEM_FONTS.find(font => font.value === currentFont);
+    const systemFont = SYSTEM_FONTS.find((font) => font.value === currentFont);
     if (systemFont) return systemFont.name;
-    
+
     // Check loaded custom fonts
-    const customFont = loadedFonts.find(font => currentFont.includes(font));
+    const customFont = loadedFonts.find((font) => currentFont.includes(font));
     if (customFont) return customFont;
-    
+
     // Fallback to the font family value itself
     return currentFont.split(',')[0].replace(/['"]/g, '');
   };
@@ -120,10 +123,10 @@ export function FontSelector({
   // Combine system fonts and custom fonts
   const allFonts = [
     ...SYSTEM_FONTS,
-    ...loadedFonts.map(font => ({
+    ...loadedFonts.map((font) => ({
       name: font,
-      value: `"${font}", sans-serif`
-    }))
+      value: `"${font}", sans-serif`,
+    })),
   ];
 
   if (!editor) {
@@ -138,7 +141,10 @@ export function FontSelector({
         title="Select Font"
         type="button"
       >
-        <span className="text-sm truncate" style={{ fontFamily: currentFont || 'inherit' }}>
+        <span
+          className="text-sm truncate"
+          style={{ fontFamily: currentFont || 'inherit' }}
+        >
           {getCurrentFontName()}
         </span>
         <svg
@@ -147,7 +153,7 @@ export function FontSelector({
           viewBox="0 0 24 24"
           fill="currentColor"
           className={classNames('transition-transform', {
-            'rotate-180': isOpen
+            'rotate-180': isOpen,
           })}
         >
           <path d="M7 10l5 5 5-5z" />
@@ -163,7 +169,9 @@ export function FontSelector({
               className={classNames(
                 'w-full px-3 py-2 text-left text-sm hover:bg-gray-100 focus:outline-none focus:bg-gray-100',
                 {
-                  'bg-blue-50 text-blue-700': currentFont === font.value || (!currentFont && font.value === '')
+                  'bg-blue-50 text-blue-700':
+                    currentFont === font.value ||
+                    (!currentFont && font.value === ''),
                 }
               )}
               style={{ fontFamily: font.value || 'inherit' }}
@@ -172,7 +180,7 @@ export function FontSelector({
               {font.name}
             </button>
           ))}
-          
+
           {loadedFonts.length === 0 && (
             <div className="px-3 py-2 text-xs text-gray-500 border-t border-gray-200">
               No custom fonts loaded

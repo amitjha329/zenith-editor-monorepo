@@ -75,7 +75,7 @@ export class FontLoader {
    */
   private detectFontFormat(src: string): string {
     const extension = src.split('.').pop()?.toLowerCase();
-    
+
     switch (extension) {
       case 'woff2':
         return 'woff2';
@@ -115,7 +115,7 @@ export class FontLoader {
       fontStyle = 'normal',
       fontStretch = 'normal',
       unicodeRange,
-      fontDisplay = 'swap'
+      fontDisplay = 'swap',
     } = fontDefinition;
 
     const { testString = 'BESbswy', timeout = 5000 } = options;
@@ -124,7 +124,7 @@ export class FontLoader {
     if (this.loadedFonts.has(fontFamily)) {
       return {
         fontFamily,
-        status: 'loaded'
+        status: 'loaded',
       };
     }
 
@@ -140,7 +140,7 @@ export class FontLoader {
       return {
         fontFamily,
         status: 'error',
-        error
+        error,
       };
     }
 
@@ -155,7 +155,7 @@ export class FontLoader {
 
     try {
       const result = await loadingPromise;
-      
+
       if (result.status === 'loaded') {
         // Store the loaded font for future reference
         const fontFace = new FontFace(
@@ -166,10 +166,10 @@ export class FontLoader {
             style: fontStyle,
             stretch: fontStretch,
             unicodeRange,
-            display: fontDisplay
+            display: fontDisplay,
           }
         );
-        
+
         this.loadedFonts.set(fontFamily, fontFace);
       }
 
@@ -196,7 +196,7 @@ export class FontLoader {
       fontStyle = 'normal',
       fontStretch = 'normal',
       unicodeRange,
-      fontDisplay = 'swap'
+      fontDisplay = 'swap',
     } = fontDefinition;
 
     try {
@@ -209,7 +209,7 @@ export class FontLoader {
           style: fontStyle,
           stretch: fontStretch,
           unicodeRange,
-          display: fontDisplay
+          display: fontDisplay,
         }
       );
 
@@ -221,10 +221,7 @@ export class FontLoader {
       });
 
       // Load the font with timeout
-      const loadedFont = await Promise.race([
-        fontFace.load(),
-        timeoutPromise
-      ]);
+      const loadedFont = await Promise.race([fontFace.load(), timeoutPromise]);
 
       // Add font to document's font set
       document.fonts.add(loadedFont);
@@ -236,17 +233,20 @@ export class FontLoader {
 
       return {
         fontFamily,
-        status: 'loaded'
+        status: 'loaded',
       };
-
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      console.error(`FontLoader: Failed to load font "${fontFamily}":`, errorMessage);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      console.error(
+        `FontLoader: Failed to load font "${fontFamily}":`,
+        errorMessage
+      );
 
       return {
         fontFamily,
         status: errorMessage.includes('timeout') ? 'timeout' : 'error',
-        error: errorMessage
+        error: errorMessage,
       };
     }
   }
@@ -258,7 +258,7 @@ export class FontLoader {
     fontDefinitions: CustomFontDefinition[],
     options: FontLoadOptions = {}
   ): Promise<FontLoadResult[]> {
-    const loadPromises = fontDefinitions.map(font => 
+    const loadPromises = fontDefinitions.map((font) =>
       this.loadFont(font, options)
     );
 
@@ -315,7 +315,7 @@ export class FontLoader {
       fontStyle = 'normal',
       fontStretch = 'normal',
       unicodeRange,
-      fontDisplay = 'swap'
+      fontDisplay = 'swap',
     } = fontDefinition;
 
     const fontLoader = FontLoader.getInstance();
@@ -328,11 +328,11 @@ export class FontLoader {
     css += `  font-style: ${fontStyle};\n`;
     css += `  font-stretch: ${fontStretch};\n`;
     css += `  font-display: ${fontDisplay};\n`;
-    
+
     if (unicodeRange) {
       css += `  unicode-range: ${unicodeRange};\n`;
     }
-    
+
     css += `}`;
 
     return css;

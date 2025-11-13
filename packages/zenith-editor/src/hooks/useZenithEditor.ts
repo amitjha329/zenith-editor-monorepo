@@ -112,7 +112,7 @@ export function useZenithEditor(options: ZenithEditorOptions = {}) {
 
   useEffect(() => {
     if (onFontLoadError && fontLoader.state.failed.length > 0) {
-      fontLoader.state.failed.forEach(failed => {
+      fontLoader.state.failed.forEach((failed) => {
         onFontLoadError(failed);
       });
     }

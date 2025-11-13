@@ -25,7 +25,7 @@ export {
   FontLoader,
   loadCustomFont,
   loadCustomFonts,
-  isCustomFontSupported
+  isCustomFontSupported,
 } from './utils/fontLoader';
 
 // Types
@@ -38,14 +38,14 @@ export type {
   CustomFontDefinition,
   FontLoadOptions,
   FontLoadResult,
-  FontLoadStatus
+  FontLoadStatus,
 } from './utils/fontLoader';
 export type {
   FontLoadingState,
   UseFontLoaderOptions,
   UseFontLoaderReturn,
   UseEditorFontsOptions,
-  UseEditorFontsReturn
+  UseEditorFontsReturn,
 } from './hooks/useFontLoader';
 
 // CSS (users can import this separately)

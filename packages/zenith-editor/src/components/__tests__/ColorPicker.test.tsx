@@ -22,7 +22,7 @@ const mockEditor = {
 describe('ColorPicker', () => {
   it('renders color picker button', () => {
     render(<ColorPicker editor={mockEditor} />);
-    
+
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute('title', 'Text Color (#000000)');
@@ -30,14 +30,14 @@ describe('ColorPicker', () => {
 
   it('opens dropdown when button is clicked', () => {
     render(<ColorPicker editor={mockEditor} />);
-    
+
     const button = screen.getByRole('button');
     fireEvent.click(button);
 
     // Check for predefined color buttons
     expect(screen.getByTitle('#ef4444')).toBeInTheDocument();
     expect(screen.getByTitle('#22c55e')).toBeInTheDocument();
-    
+
     // Check for custom color section
     expect(screen.getByText('Custom:')).toBeInTheDocument();
   });
@@ -54,7 +54,7 @@ describe('ColorPicker', () => {
     } as any;
 
     render(<ColorPicker editor={editorWithColor} />);
-    
+
     const button = screen.getByRole('button');
     expect(button).toHaveAttribute('title', 'Text Color (#ef4444)');
   });

@@ -39,12 +39,12 @@ export interface ColorPickerProps {
 /**
  * Color picker component for text color selection
  */
-export function ColorPicker({ 
-  editor, 
-  className, 
+export function ColorPicker({
+  editor,
+  className,
   onColorSelect,
   colors = DEFAULT_COLORS,
-  showRemoveColor = true
+  showRemoveColor = true,
 }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [customColor, setCustomColor] = useState('#000000');
@@ -59,7 +59,10 @@ export function ColorPicker({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -91,7 +94,9 @@ export function ColorPicker({
   };
 
   // Handle custom color input
-  const handleCustomColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCustomColorChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const color = event.target.value;
     setCustomColor(color);
     handleColorSelect(color);
@@ -105,7 +110,10 @@ export function ColorPicker({
   const isColorActive = currentColor !== '#000000';
 
   return (
-    <div className={classNames('relative inline-block', className)} ref={dropdownRef}>
+    <div
+      className={classNames('relative inline-block', className)}
+      ref={dropdownRef}
+    >
       {/* Color Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -130,7 +138,7 @@ export function ColorPicker({
             style={{ backgroundColor: currentColor }}
           />
         </div>
-        
+
         {/* Dropdown arrow */}
         <svg
           width="8"
@@ -160,8 +168,10 @@ export function ColorPicker({
                 className={classNames(
                   'w-8 h-8 rounded border-2 transition-all duration-200 hover:scale-110',
                   {
-                    'border-gray-400 ring-2 ring-blue-500': currentColor === color,
-                    'border-gray-300 hover:border-gray-400': currentColor !== color,
+                    'border-gray-400 ring-2 ring-blue-500':
+                      currentColor === color,
+                    'border-gray-300 hover:border-gray-400':
+                      currentColor !== color,
                   }
                 )}
                 style={{ backgroundColor: color }}
@@ -174,7 +184,11 @@ export function ColorPicker({
                     width="12"
                     height="12"
                     viewBox="0 0 24 24"
-                    fill={color === '#ffffff' || color === '#fef3c7' ? '#000000' : '#ffffff'}
+                    fill={
+                      color === '#ffffff' || color === '#fef3c7'
+                        ? '#000000'
+                        : '#ffffff'
+                    }
                     className="mx-auto"
                   >
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
@@ -186,7 +200,10 @@ export function ColorPicker({
 
           {/* Custom Color Input */}
           <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-200">
-            <label htmlFor="custom-color" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="custom-color"
+              className="text-sm font-medium text-gray-700"
+            >
               Custom:
             </label>
             <input
@@ -219,7 +236,12 @@ export function ColorPicker({
               className="w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors duration-200 flex items-center justify-center gap-2"
               type="button"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
               </svg>
               Remove Color

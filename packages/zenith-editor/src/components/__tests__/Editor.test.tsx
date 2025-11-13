@@ -35,7 +35,13 @@ jest.mock('../../hooks/useZenithEditor', () => ({
 
 // Mock EditorContent component
 jest.mock('@tiptap/react', () => ({
-  EditorContent: ({ style, className }: { style?: React.CSSProperties; className?: string }) => (
+  EditorContent: ({
+    style,
+    className,
+  }: {
+    style?: React.CSSProperties;
+    className?: string;
+  }) => (
     <div data-testid="editor-content" style={style} className={className}>
       Editor Content
     </div>
@@ -50,7 +56,7 @@ jest.mock('../Toolbar', () => ({
 describe('ZenithEditor', () => {
   it('renders editor with default props', () => {
     render(<ZenithEditor />);
-    
+
     expect(screen.getByTestId('editor-content')).toBeInTheDocument();
   });
 
@@ -62,7 +68,7 @@ describe('ZenithEditor', () => {
     };
 
     render(<ZenithEditor contentStyle={contentStyle} />);
-    
+
     const editorContent = screen.getByTestId('editor-content');
     expect(editorContent).toHaveStyle({
       fontFamily: 'Georgia, serif',
@@ -73,14 +79,16 @@ describe('ZenithEditor', () => {
 
   it('applies custom container className', () => {
     render(<ZenithEditor containerClassName="custom-container" />);
-    
-    const container = screen.getByTestId('editor-content').closest('.zenith-editor-container');
+
+    const container = screen
+      .getByTestId('editor-content')
+      .closest('.zenith-editor-container');
     expect(container).toHaveClass('custom-container');
   });
 
   it('applies custom editor className', () => {
     render(<ZenithEditor editorClassName="custom-editor" />);
-    
+
     const editorContent = screen.getByTestId('editor-content');
     expect(editorContent).toHaveClass('custom-editor');
   });
@@ -88,21 +96,23 @@ describe('ZenithEditor', () => {
   it('applies container style', () => {
     const containerStyle = { backgroundColor: 'red' };
     render(<ZenithEditor style={containerStyle} />);
-    
-    const container = screen.getByTestId('editor-content').closest('.zenith-editor-container');
+
+    const container = screen
+      .getByTestId('editor-content')
+      .closest('.zenith-editor-container');
     expect(container).toHaveStyle({ backgroundColor: 'red' });
   });
 
   it('shows toolbar by default', () => {
     render(<ZenithEditor />);
-    
+
     const toolbar = screen.getByRole('toolbar', { hidden: true });
     expect(toolbar).toBeInTheDocument();
   });
 
   it('hides toolbar when showToolbar is false', () => {
     render(<ZenithEditor showToolbar={false} />);
-    
+
     const toolbar = screen.queryByRole('toolbar', { hidden: true });
     expect(toolbar).not.toBeInTheDocument();
   });
@@ -112,7 +122,7 @@ describe('ZenithEditor', () => {
       fontFamily: 'Arial, sans-serif',
       lineHeight: '1.5',
     };
-    
+
     const containerStyle = {
       border: '2px solid blue',
     };
@@ -125,19 +135,19 @@ describe('ZenithEditor', () => {
         editorClassName="test-editor"
       />
     );
-    
+
     const editorContent = screen.getByTestId('editor-content');
     const container = editorContent.closest('.zenith-editor-container');
-    
+
     expect(editorContent).toHaveStyle({
       fontFamily: 'Arial, sans-serif',
       lineHeight: '1.5',
     });
-    
+
     expect(container).toHaveStyle({
       border: '2px solid blue',
     });
-    
+
     expect(container).toHaveClass('test-container');
     expect(editorContent).toHaveClass('test-editor');
   });

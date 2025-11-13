@@ -161,10 +161,10 @@ export const ZenithEditor = forwardRef<ZenithEditorRef, ZenithEditorProps>(
       >
         {showToolbar && (
           <div className="zenith-editor-toolbar-wrapper border-b border-gray-200">
-            <ToolbarComponent 
-              editor={editor} 
-              onImageUpload={onImageUpload} 
-              loadedFonts={getLoadedFonts ? getLoadedFonts() : []} 
+            <ToolbarComponent
+              editor={editor}
+              onImageUpload={onImageUpload}
+              loadedFonts={getLoadedFonts ? getLoadedFonts() : []}
             />
           </div>
         )}

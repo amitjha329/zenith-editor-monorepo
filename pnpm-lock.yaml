@@ -52,7 +52,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       zenith-editor:
         specifier: workspace:*
-        version: link:../..
+        version: link:../../packages/zenith-editor
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.10
@@ -105,6 +105,9 @@ importers:
       '@tiptap/extension-code-block-lowlight':
         specifier: ^2.2.4
         version: 2.26.1(@tiptap/core@2.26.1)(@tiptap/extension-code-block@2.26.1)(@tiptap/pm@2.26.1)(highlight.js@11.11.1)(lowlight@3.3.0)
+      '@tiptap/extension-color':
+        specifier: ^2.2.4
+        version: 2.27.1(@tiptap/core@2.26.1)(@tiptap/extension-text-style@2.26.4)
       '@tiptap/extension-document':
         specifier: ^2.2.4
         version: 2.26.1(@tiptap/core@2.26.1)
@@ -1631,6 +1634,16 @@ packages:
     dependencies:
       '@tiptap/core': 2.26.1(@tiptap/pm@2.26.1)
       '@tiptap/pm': 2.26.1
+    dev: false
+
+  /@tiptap/extension-color@2.27.1(@tiptap/core@2.26.1)(@tiptap/extension-text-style@2.26.4):
+    resolution: {integrity: sha512-raYRsdG2tZvVvY1LV/VTZnDG44Y0xRBwo5CZEat0OUqdx34dfvCtYm8HIOTyWBwr7OOW+yR4O1Vc2zFkmfthZw==}
+    peerDependencies:
+      '@tiptap/core': ^2.7.0
+      '@tiptap/extension-text-style': ^2.7.0
+    dependencies:
+      '@tiptap/core': 2.26.1(@tiptap/pm@2.26.1)
+      '@tiptap/extension-text-style': 2.26.4(@tiptap/core@2.26.1)
     dev: false
 
   /@tiptap/extension-document@2.26.1(@tiptap/core@2.26.1):

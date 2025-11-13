@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Editor } from '@tiptap/react';
 import classNames from 'classnames';
 import { FontSelector } from './FontSelector';
+import { ColorPicker } from './ColorPicker';
 
 /**
  * Props for the Toolbar component
@@ -106,7 +107,7 @@ export function Toolbar({ editor, className, onImageUpload, loadedFonts = [] }: 
         className
       )}
     >
-      {/* Font Selector */}
+      {/* Font Selector and Color Picker */}
       <div className="flex items-center gap-1 border-r border-gray-200 pr-2">
         <FontSelector 
           editor={editor} 
@@ -114,6 +115,13 @@ export function Toolbar({ editor, className, onImageUpload, loadedFonts = [] }: 
           onFontSelect={(fontFamily) => {
             // Optional callback for when font is selected
             console.log('Font selected:', fontFamily);
+          }}
+        />
+        <ColorPicker
+          editor={editor}
+          onColorSelect={(color) => {
+            // Optional callback for when color is selected
+            console.log('Color selected:', color);
           }}
         />
       </div>

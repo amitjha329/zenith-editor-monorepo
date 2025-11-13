@@ -6,6 +6,7 @@ import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import Underline from '@tiptap/extension-underline';
 import Strike from '@tiptap/extension-strike';
+import Color from '@tiptap/extension-color';
 import FontFamily from '@tiptap/extension-font-family';
 import Heading from '@tiptap/extension-heading';
 import BulletList from '@tiptap/extension-bullet-list';
@@ -92,9 +93,12 @@ export const defaultExtensions = [
     },
   }),
 
-  // Text styling extensions for font family support
+  // Text styling extensions for font family and color support
   TextStyle,
   FontFamily.configure({
+    types: ['textStyle'],
+  }),
+  Color.configure({
     types: ['textStyle'],
   }),
 

@@ -788,4 +788,4 @@ Found a bug or have a feature request? Please [open an issue](https://github.com
 
 ---
 
-Made with ❤️ by the Zenith Editor team
+Made with ❤️ by the [Yash Jha](https://github.com/amitjha329/)

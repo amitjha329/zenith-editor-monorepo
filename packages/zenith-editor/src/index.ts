@@ -7,6 +7,7 @@
 export { ZenithEditor as default, ZenithEditor } from './components/Editor';
 export { Toolbar } from './components/Toolbar';
 export { FontSelector } from './components/FontSelector';
+export { ColorPicker } from './components/ColorPicker';
 
 // Hooks
 export { useZenithEditor } from './hooks/useZenithEditor';
@@ -31,6 +32,7 @@ export {
 export type { ZenithEditorProps, ZenithEditorRef } from './components/Editor';
 export type { ToolbarProps } from './components/Toolbar';
 export type { FontSelectorProps } from './components/FontSelector';
+export type { ColorPickerProps } from './components/ColorPicker';
 export type { ZenithEditorOptions } from './hooks/useZenithEditor';
 export type {
   CustomFontDefinition,

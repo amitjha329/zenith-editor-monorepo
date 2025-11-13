@@ -17,7 +17,6 @@
     "type-check": "pnpm --filter zenith-editor tsc --noEmit",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "release": "pnpm build:package && pnpm test && echo 'Ready for release!'",
     "prerelease": "pnpm lint && pnpm type-check && pnpm test && pnpm build:package",
     "publish:package": "pnpm --filter zenith-editor publish"
   },

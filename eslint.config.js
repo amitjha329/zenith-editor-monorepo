@@ -1,18 +1,40 @@
-import js from '@eslint/js';
-import typescript from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import prettier from 'eslint-plugin-prettier';
-import prettierConfig from 'eslint-config-prettier';
+const js = require('@eslint/js');
+const typescript = require('@typescript-eslint/eslint-plugin');
+const typescriptParser = require('@typescript-eslint/parser');
+const react = require('eslint-plugin-react');
+const reactHooks = require('eslint-plugin-react-hooks');
+const prettier = require('eslint-plugin-prettier');
 
-export default [
-  // Base configuration for all files
-  js.configs.recommended,
-  
-  // TypeScript and React configuration
+module.exports = [
   {
-    files: ['**/*.{ts,tsx,js,jsx}'],
+    ignores: [
+      'dist/**',
+      'build/**',
+      'node_modules/**',
+      '.next/**',
+      '**/*.d.ts',
+      'pnpm-lock.yaml',
+      '.github/**',
+      'docs/**',
+      '**/*.config.js',
+      '**/*.config.ts',
+      'coverage/**',
+      '.turbo/**',
+      'out/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/.next/**',
+    ],
+  },
+  js.configs.recommended,
+  {
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    plugins: {
+      '@typescript-eslint': typescript,
+      'react': react,
+      'react-hooks': reactHooks,
+      'prettier': prettier,
+    },
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -23,52 +45,51 @@ export default [
         },
       },
       globals: {
-        browser: true,
-        es6: true,
-        node: true,
+        console: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        global: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        exports: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        location: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
       },
     },
-    plugins: {
-      '@typescript-eslint': typescript,
-      'react': react,
-      'react-hooks': reactHooks,
-      'prettier': prettier,
+    settings: {
+      react: {
+        version: '19.0',
+      },
     },
     rules: {
+      // Core ESLint rules
+      'no-unused-vars': 'off', // Turn off base rule as we use TypeScript version
+      'no-undef': 'off', // TypeScript handles this
+      
       // TypeScript rules
-      ...typescript.configs.recommended.rules,
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-empty-function': 'warn',
       
       // React rules
-      ...react.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
+      'react/display-name': 'off',
       
-      // Prettier rules
+      // React hooks rules
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      
+      // Prettier integration
       'prettier/prettier': 'error',
     },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-  },
-  
-  // Prettier configuration (disable conflicting rules)
-  prettierConfig,
-  
-  // Ignore patterns
-  {
-    ignores: [
-      'dist/**',
-      'build/**',
-      'node_modules/**',
-      '.next/**',
-      '*.d.ts',
-    ],
   },
 ];

@@ -2,7 +2,17 @@
 const nextConfig = {
   transpilePackages: ['zenith-editor'],
   images: {
-    domains: ['localhost'],
+    // Use remotePatterns instead of deprecated domains
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https', 
+        hostname: 'localhost',
+      },
+    ],
   },
 };
 

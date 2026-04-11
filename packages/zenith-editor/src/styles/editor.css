@@ -50,6 +50,10 @@
   @apply text-xl mt-4 mb-2;
 }
 
+.zenith-editor-content .zenith-heading[data-level='4'] {
+  @apply text-lg mt-3 mb-2;
+}
+
 .zenith-editor-content .zenith-paragraph {
   @apply text-gray-800 leading-relaxed mb-3;
 }
@@ -370,4 +374,25 @@
 
 .dark .zenith-image-loading-text {
   @apply text-gray-500;
+}
+
+/* Bilingual / Devanagari Script Support */
+.zenith-editor-content .ProseMirror {
+  /* Use a font stack that covers Latin + Devanagari glyphs without layout shift */
+  font-family: inherit;
+  /* Prevent reflow when mixing scripts by using consistent line metrics */
+  line-height: 1.8;
+  /* Allow mid-word breaks for long Devanagari compounds */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  /* Ensure proper line-breaking for Indic scripts */
+  word-break: normal;
+  line-break: auto;
+}
+
+/* Prevent layout jumps when formatting is applied to Devanagari text */
+.zenith-editor-content .zenith-bold,
+.zenith-editor-content .zenith-italic,
+.zenith-editor-content .zenith-underline {
+  font-size-adjust: from-font;
 }

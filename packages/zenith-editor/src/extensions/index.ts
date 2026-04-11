@@ -104,7 +104,7 @@ export const defaultExtensions = [
 
   // Headings
   Heading.configure({
-    levels: [1, 2, 3],
+    levels: [1, 2, 3, 4],
     HTMLAttributes: {
       class: 'zenith-heading',
     },

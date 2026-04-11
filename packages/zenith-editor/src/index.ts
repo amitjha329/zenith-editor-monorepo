@@ -12,6 +12,7 @@ export { ColorPicker } from './components/ColorPicker';
 // Hooks
 export { useZenithEditor } from './hooks/useZenithEditor';
 export { useFontLoader, useEditorFonts } from './hooks/useFontLoader';
+export { useImageUpload } from './hooks/useImageUpload';
 
 // Extensions
 export {
@@ -34,6 +35,11 @@ export type { ToolbarProps } from './components/Toolbar';
 export type { FontSelectorProps } from './components/FontSelector';
 export type { ColorPickerProps } from './components/ColorPicker';
 export type { ZenithEditorOptions } from './hooks/useZenithEditor';
+export type {
+  ImageUploadState,
+  UseImageUploadOptions,
+  UseImageUploadReturn,
+} from './hooks/useImageUpload';
 export type {
   CustomFontDefinition,
   FontLoadOptions,

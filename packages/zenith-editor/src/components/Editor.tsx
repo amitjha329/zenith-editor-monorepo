@@ -1,5 +1,6 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { EditorContent } from '@tiptap/react';
+import { EditorContent, Editor } from '@tiptap/react';
+import { JSONContent } from '@tiptap/core';
 import classNames from 'classnames';
 import { useZenithEditor, ZenithEditorOptions } from '../hooks/useZenithEditor';
 import { Toolbar } from './Toolbar';
@@ -12,7 +13,7 @@ export interface ZenithEditorProps extends ZenithEditorOptions {
   showToolbar?: boolean;
   /** Custom toolbar component */
   toolbar?: React.ComponentType<{
-    editor: any;
+    editor: Editor;
     onImageUpload?: (file: File) => Promise<string>;
     loadedFonts?: string[];
   }>;
@@ -31,9 +32,9 @@ export interface ZenithEditorRef {
   /** Get the current content as HTML */
   getHTML: () => string;
   /** Get the current content as JSON */
-  getJSON: () => any;
+  getJSON: () => JSONContent;
   /** Set the editor content */
-  setContent: (content: string | any) => void;
+  setContent: (content: string | JSONContent) => void;
   /** Clear all content */
   clearContent: () => void;
   /** Focus the editor */

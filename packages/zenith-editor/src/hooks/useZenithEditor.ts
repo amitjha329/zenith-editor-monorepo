@@ -1,6 +1,6 @@
 import { useEditor, Editor } from '@tiptap/react';
-import { JSONContent } from '@tiptap/core';
-import { useCallback, useEffect } from 'react';
+import { JSONContent, Extension, Mark, Node as TiptapNode } from '@tiptap/core';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { defaultExtensions, PlaceholderExtension } from '../extensions';
 import { CustomFontDefinition } from '../utils/fontLoader';
 import { useFontLoader } from './useFontLoader';
@@ -24,7 +24,7 @@ export interface ZenithEditorOptions {
   /** Callback for handling image uploads */
   onImageUpload?: (file: File) => Promise<string>;
   /** Custom extensions to add to the editor */
-  extensions?: any[];
+  extensions?: Array<Extension | Mark | TiptapNode>;
   /** Custom CSS class name for the editor */
   className?: string;
   /** Whether to automatically focus the editor on mount */
@@ -118,12 +118,17 @@ export function useZenithEditor(options: ZenithEditorOptions = {}) {
     }
   }, [fontLoader.state.failed, onFontLoadError]);
 
-  // Combine default extensions with custom ones
-  const allExtensions = [
-    ...defaultExtensions,
-    PlaceholderExtension,
-    ...customExtensions,
-  ];
+  // Memoize extensions to prevent Tiptap from re-initializing on every render
+  const allExtensions = useMemo(
+    () => [...defaultExtensions, PlaceholderExtension, ...customExtensions],
+    [customExtensions]
+  );
+
+  // Stable ref for onUpdate to avoid re-creating the editor on callback changes
+  const onUpdateRef = useRef(onUpdate);
+  useEffect(() => {
+    onUpdateRef.current = onUpdate;
+  }, [onUpdate]);
 
   const editor = useEditor({
     extensions: allExtensions,
@@ -132,10 +137,10 @@ export function useZenithEditor(options: ZenithEditorOptions = {}) {
     autofocus: autoFocus,
     immediatelyRender: false, // Fix SSR hydration issues
     onUpdate: ({ editor }) => {
-      if (onUpdate) {
+      if (onUpdateRef.current) {
         const html = editor.getHTML();
         const json = editor.getJSON();
-        onUpdate({ editor, html, json });
+        onUpdateRef.current({ editor, html, json });
       }
     },
     onCreate: ({ editor }) => {

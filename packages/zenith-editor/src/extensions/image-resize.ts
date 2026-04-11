@@ -4,7 +4,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { ImageResize } from '../components/ImageResize';
 
 export interface ImageResizeOptions {
-  HTMLAttributes: Record<string, any>;
+  HTMLAttributes: Record<string, string>;
   allowBase64: boolean;
   inline: boolean;
 }

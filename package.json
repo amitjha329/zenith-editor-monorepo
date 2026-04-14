@@ -20,12 +20,10 @@
     "publish:npm": "node ./scripts/publish-npm.js",
     "publish:package": "pnpm --filter zenith-editor publish"
   },
-
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
-  
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/node": "^20.11.5",

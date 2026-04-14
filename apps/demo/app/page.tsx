@@ -2,6 +2,11 @@
 
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
+import type { ZenithEditorOptions } from 'zenith-editor';
+
+type EditorUpdatePayload = Parameters<
+  NonNullable<ZenithEditorOptions['onUpdate']>
+>[0];
 
 // Import the editor dynamically to avoid SSR issues
 const ZenithEditor = dynamic(
@@ -90,7 +95,7 @@ export default function HomePage() {
     });
   };
 
-  const handleContentUpdate = ({ html, json }: { html: string; json: any }) => {
+  const handleContentUpdate = ({ html, json }: EditorUpdatePayload) => {
     setContent(html);
     setJsonOutput(JSON.stringify(json, null, 2));
   };

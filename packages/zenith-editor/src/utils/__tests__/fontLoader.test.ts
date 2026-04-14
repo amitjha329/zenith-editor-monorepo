@@ -9,18 +9,22 @@ import {
 class MockFontFace {
   family: string;
   source: string;
-  descriptors: any;
+  descriptors: FontFaceDescriptors;
   status: string = 'unloaded';
   loaded: Promise<MockFontFace>;
 
-  constructor(family: string, source: string, descriptors: any = {}) {
+  constructor(
+    family: string,
+    source: string,
+    descriptors: FontFaceDescriptors = {}
+  ) {
     this.family = family;
     this.source = source;
     this.descriptors = descriptors;
     this.loaded = Promise.resolve(this);
   }
 
-  async load() {
+  async load(): Promise<MockFontFace> {
     // Simulate font loading
     await new Promise((resolve) => setTimeout(resolve, 10));
     this.status = 'loaded';
@@ -45,9 +49,6 @@ const mockFonts = {
 
 // Setup mocks
 beforeAll(() => {
-  // Mock FontFace API globally
-  (global as any).FontFace = MockFontFace;
-
   // Create a more complete document mock
   const mockDocument = {
     fonts: mockFonts,
@@ -64,21 +65,21 @@ beforeAll(() => {
   };
 
   // Make sure FontFace is available globally
-  Object.defineProperty(global, 'FontFace', {
+  Object.defineProperty(globalThis, 'FontFace', {
     value: MockFontFace,
     writable: true,
     configurable: true,
   });
 
   // Make sure document is available globally with fonts property
-  Object.defineProperty(global, 'document', {
+  Object.defineProperty(globalThis, 'document', {
     value: mockDocument,
     writable: true,
     configurable: true,
   });
 
   // Also ensure window.document is available
-  Object.defineProperty(global, 'window', {
+  Object.defineProperty(globalThis, 'window', {
     value: { document: mockDocument },
     writable: true,
     configurable: true,
@@ -177,11 +178,15 @@ describe('FontLoader', () => {
 
     it('should handle font loading timeout', async () => {
       // Mock a slow loading font
-      jest
-        .spyOn(MockFontFace.prototype, 'load')
-        .mockImplementation(
-          () => new Promise((resolve) => setTimeout(resolve, 100))
-        );
+      jest.spyOn(MockFontFace.prototype, 'load').mockImplementation(
+        () =>
+          new Promise<MockFontFace>((resolve) => {
+            setTimeout(
+              () => resolve(new MockFontFace('SlowFont', 'test')),
+              100
+            );
+          })
+      );
 
       const fontLoader = FontLoader.getInstance();
 

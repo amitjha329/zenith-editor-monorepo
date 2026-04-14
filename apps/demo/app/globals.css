@@ -1,6 +1,3 @@
-/* Import Zenith Editor styles - adjust path for demo */
-@import '../../../packages/zenith-editor/src/styles/editor.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

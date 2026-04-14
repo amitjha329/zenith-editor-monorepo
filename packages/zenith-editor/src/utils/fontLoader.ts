@@ -48,10 +48,13 @@ export interface FontLoadResult {
  */
 export class FontLoader {
   private static instance: FontLoader;
-  private loadedFonts: Map<string, FontFace> = new Map();
-  private loadingPromises: Map<string, Promise<FontLoadResult>> = new Map();
+  private loadedFonts: Map<string, FontFace>;
+  private loadingPromises: Map<string, Promise<FontLoadResult>>;
 
-  private constructor() {}
+  private constructor() {
+    this.loadedFonts = new Map();
+    this.loadingPromises = new Map();
+  }
 
   /**
    * Get the singleton instance of FontLoader

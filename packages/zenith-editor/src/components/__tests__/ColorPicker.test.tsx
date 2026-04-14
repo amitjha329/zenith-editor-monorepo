@@ -1,26 +1,36 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import type { Editor } from '@tiptap/react';
 import { ColorPicker } from '../ColorPicker';
 
-// Mock the editor
-const mockEditor = {
-  isEditable: true,
-  getAttributes: () => ({ color: '#000000' }),
-  chain: () => ({
-    focus: () => ({
-      setColor: () => ({
-        run: () => {},
-      }),
-      unsetColor: () => ({
-        run: () => {},
-      }),
-    }),
-  }),
-} as any;
+function createMockEditor(color = '#000000'): Editor {
+  const chainedCommands = {
+    focus: jest.fn(),
+    setColor: jest.fn(),
+    unsetColor: jest.fn(),
+    run: jest.fn().mockReturnValue(true),
+  };
+
+  chainedCommands.focus.mockReturnValue(chainedCommands);
+  chainedCommands.setColor.mockReturnValue(chainedCommands);
+  chainedCommands.unsetColor.mockReturnValue(chainedCommands);
+
+  return {
+    isEditable: true,
+    getAttributes: jest
+      .fn()
+      .mockImplementation((attribute: string) =>
+        attribute === 'textStyle' ? { color } : {}
+      ),
+    chain: jest.fn().mockReturnValue(chainedCommands),
+  } as unknown as Editor;
+}
 
 describe('ColorPicker', () => {
   it('renders color picker button', () => {
+    const mockEditor = createMockEditor();
+
     render(<ColorPicker editor={mockEditor} />);
 
     const button = screen.getByRole('button');
@@ -29,6 +39,8 @@ describe('ColorPicker', () => {
   });
 
   it('opens dropdown when button is clicked', () => {
+    const mockEditor = createMockEditor();
+
     render(<ColorPicker editor={mockEditor} />);
 
     const button = screen.getByRole('button');
@@ -43,15 +55,15 @@ describe('ColorPicker', () => {
   });
 
   it('does not render when editor is null', () => {
-    const { container } = render(<ColorPicker editor={null as any} />);
+    const { container } = render(
+      <ColorPicker editor={null as unknown as Editor} />
+    );
+
     expect(container.firstChild).toBeNull();
   });
 
   it('shows current color in title', () => {
-    const editorWithColor = {
-      ...mockEditor,
-      getAttributes: () => ({ color: '#ef4444' }),
-    } as any;
+    const editorWithColor = createMockEditor('#ef4444');
 
     render(<ColorPicker editor={editorWithColor} />);
 

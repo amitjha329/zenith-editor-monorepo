@@ -1,32 +1,78 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import type { Editor } from '@tiptap/react';
 import { Toolbar } from '../Toolbar';
 
-// Mock Tiptap editor
-const mockEditor = {
-  isActive: jest.fn().mockReturnValue(false),
-  can: jest.fn().mockReturnValue({
-    undo: jest.fn().mockReturnValue(true),
-    redo: jest.fn().mockReturnValue(true),
-  }),
-  chain: jest.fn().mockReturnValue({
-    focus: jest.fn().mockReturnValue({
-      toggleBold: jest.fn().mockReturnValue({
-        run: jest.fn(),
-      }),
-      toggleItalic: jest.fn().mockReturnValue({
-        run: jest.fn(),
-      }),
-      undo: jest.fn().mockReturnValue({
-        run: jest.fn(),
-      }),
-      redo: jest.fn().mockReturnValue({
-        run: jest.fn(),
-      }),
-    }),
-  }),
-  getAttributes: jest.fn().mockReturnValue({}),
-} as any;
+function createCommandChain() {
+  const commandChain = {
+    focus: jest.fn(),
+    toggleBold: jest.fn(),
+    toggleItalic: jest.fn(),
+    toggleUnderline: jest.fn(),
+    toggleStrike: jest.fn(),
+    toggleHeading: jest.fn(),
+    toggleBulletList: jest.fn(),
+    toggleOrderedList: jest.fn(),
+    extendMarkRange: jest.fn(),
+    setLink: jest.fn(),
+    unsetLink: jest.fn(),
+    setColor: jest.fn(),
+    unsetColor: jest.fn(),
+    setFontFamily: jest.fn(),
+    unsetFontFamily: jest.fn(),
+    toggleBlockquote: jest.fn(),
+    toggleCodeBlock: jest.fn(),
+    undo: jest.fn(),
+    redo: jest.fn(),
+    run: jest.fn().mockReturnValue(true),
+  };
+
+  commandChain.focus.mockReturnValue(commandChain);
+  commandChain.toggleBold.mockReturnValue(commandChain);
+  commandChain.toggleItalic.mockReturnValue(commandChain);
+  commandChain.toggleUnderline.mockReturnValue(commandChain);
+  commandChain.toggleStrike.mockReturnValue(commandChain);
+  commandChain.toggleHeading.mockReturnValue(commandChain);
+  commandChain.toggleBulletList.mockReturnValue(commandChain);
+  commandChain.toggleOrderedList.mockReturnValue(commandChain);
+  commandChain.extendMarkRange.mockReturnValue(commandChain);
+  commandChain.setLink.mockReturnValue(commandChain);
+  commandChain.unsetLink.mockReturnValue(commandChain);
+  commandChain.setColor.mockReturnValue(commandChain);
+  commandChain.unsetColor.mockReturnValue(commandChain);
+  commandChain.setFontFamily.mockReturnValue(commandChain);
+  commandChain.unsetFontFamily.mockReturnValue(commandChain);
+  commandChain.toggleBlockquote.mockReturnValue(commandChain);
+  commandChain.toggleCodeBlock.mockReturnValue(commandChain);
+  commandChain.undo.mockReturnValue(commandChain);
+  commandChain.redo.mockReturnValue(commandChain);
+
+  return commandChain;
+}
+
+function createMockEditor(options?: {
+  activeFormats?: string[];
+  canUndo?: boolean;
+  canRedo?: boolean;
+}): Editor {
+  const activeFormats = new Set(options?.activeFormats ?? []);
+  const commandChain = createCommandChain();
+  const canCommands = {
+    undo: jest.fn().mockReturnValue(options?.canUndo ?? true),
+    redo: jest.fn().mockReturnValue(options?.canRedo ?? true),
+  };
+
+  return {
+    isActive: jest
+      .fn()
+      .mockImplementation((format: string) => activeFormats.has(format)),
+    can: jest.fn().mockReturnValue(canCommands),
+    chain: jest.fn().mockReturnValue(commandChain),
+    getAttributes: jest.fn().mockReturnValue({}),
+  } as unknown as Editor;
+}
+
+const mockEditor = createMockEditor();
 
 describe('Toolbar', () => {
   beforeEach(() => {
@@ -70,10 +116,7 @@ describe('Toolbar', () => {
   });
 
   it('shows active state for active formatting', () => {
-    const activeEditor = {
-      ...mockEditor,
-      isActive: jest.fn().mockImplementation((format) => format === 'bold'),
-    };
+    const activeEditor = createMockEditor({ activeFormats: ['bold'] });
 
     render(<Toolbar editor={activeEditor} />);
 
@@ -95,13 +138,7 @@ describe('Toolbar', () => {
   });
 
   it('disables undo/redo buttons when not available', () => {
-    const disabledEditor = {
-      ...mockEditor,
-      can: jest.fn().mockReturnValue({
-        undo: jest.fn().mockReturnValue(false),
-        redo: jest.fn().mockReturnValue(false),
-      }),
-    };
+    const disabledEditor = createMockEditor({ canUndo: false, canRedo: false });
 
     render(<Toolbar editor={disabledEditor} />);
 

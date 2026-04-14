@@ -117,22 +117,35 @@ This is automatically provided by GitHub Actions - no setup required.
 ### Manual Publishing
 
 ```bash
-# 1. Update version
-cd packages/zenith-editor
-pnpm version patch  # or minor, major
+# 1. Preview the release
+pnpm publish:npm patch --dry-run
 
-# 2. Build and test
-pnpm build
-pnpm test
+# 2. Publish a new version from the repo root
+pnpm publish:npm patch
 
-# 3. Publish
-pnpm publish
-
-# 4. Create git tag
+# 3. Commit the version bump and tag the release
 git add .
 git commit -m "chore: bump version to vX.X.X"
 git tag vX.X.X
 git push origin main --tags
+```
+
+The script mirrors the logic in the release workflows: it bumps `packages/zenith-editor/package.json`, syncs the root `package.json` version, runs `pnpm prerelease`, verifies npm auth, and publishes only `packages/zenith-editor`.
+
+Useful options:
+
+```bash
+# Publish a prerelease and tag it as alpha on npm
+pnpm publish:npm prerelease
+
+# Publish an explicit version
+pnpm publish:npm 1.7.0
+
+# Skip prerelease checks if you have already run them
+pnpm publish:npm patch --skip-checks
+
+# Allow publishing from a dirty working tree
+pnpm publish:npm patch --allow-dirty
 ```
 
 ## 🛠️ Development Commands

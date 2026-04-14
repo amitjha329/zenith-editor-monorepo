@@ -1,8 +1,7 @@
 {
   "name": "zenith-editor-monorepo",
-  "version": "1.4.0",
+  "version": "1.7.0",
   "description": "Monorepo for Zenith Editor - A modern WYSIWYG editor",
-  "private": true,
   "scripts": {
     "build": "pnpm -r build",
     "dev": "pnpm -r dev",
@@ -18,12 +17,15 @@
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
     "prerelease": "pnpm lint && pnpm type-check && pnpm test && pnpm build:package",
+    "publish:npm": "node ./scripts/publish-npm.js",
     "publish:package": "pnpm --filter zenith-editor publish"
   },
+
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
+  
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/node": "^20.11.5",

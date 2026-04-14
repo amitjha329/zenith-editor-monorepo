@@ -1,17 +1,22 @@
 {
   "name": "zenith-editor",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "A modern, production-ready WYSIWYG editor built with React and TypeScript featuring font selection, custom font loading, and comprehensive rich text editing capabilities",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "style": "./dist/styles.css",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./styles": "./dist/styles/editor.css"
+    "./styles": {
+      "types": "./dist/styles.d.ts",
+      "default": "./dist/styles.css"
+    },
+    "./styles.css": "./dist/styles.css"
   },
   "files": [
     "dist",
@@ -20,7 +25,7 @@
     "LICENSE"
   ],
   "sideEffects": [
-    "*.css"
+    "**/*.css"
   ],
   "scripts": {
     "build": "tsup",

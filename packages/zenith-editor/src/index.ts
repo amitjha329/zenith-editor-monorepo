@@ -53,6 +53,3 @@ export type {
   UseEditorFontsOptions,
   UseEditorFontsReturn,
 } from './hooks/useFontLoader';
-
-// CSS (users can import this separately)
-import './styles/editor.css';

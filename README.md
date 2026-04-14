@@ -82,6 +82,7 @@ For Next.js applications, use dynamic imports to ensure proper SSR compatibility
 
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
+import 'zenith-editor/styles';
 
 // Import the editor dynamically to avoid SSR issues
 const ZenithEditor = dynamic(

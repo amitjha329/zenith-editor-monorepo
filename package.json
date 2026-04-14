@@ -1,6 +1,6 @@
 {
   "name": "zenith-editor-monorepo",
-  "version": "1.7.0",
+  "version": "1.6.2",
   "description": "Monorepo for Zenith Editor - A modern WYSIWYG editor",
   "scripts": {
     "build": "pnpm -r build",

@@ -237,7 +237,7 @@ export const ImageResize: React.FC<NodeViewProps> = ({
     <NodeViewWrapper>
       <div
         ref={containerRef}
-        className={`relative inline-block group ${selected ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}
+        className={`relative inline-block group ${selected ? 'ring-2 ring-blue-500/50' : ''}`}
         style={{ width: dimensions.width, height: dimensions.height }}
       >
         <img

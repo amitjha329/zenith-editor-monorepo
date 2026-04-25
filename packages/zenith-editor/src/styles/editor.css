@@ -6,7 +6,7 @@
 }
 
 .zenith-editor-wrapper {
-  @apply relative min-h-[200px];
+  @apply relative min-h-50;
 }
 
 /* Editor Content */
@@ -30,7 +30,7 @@
 }
 
 .zenith-editor-content .ProseMirror {
-  @apply outline-none min-h-[150px] px-0 py-2;
+  @apply outline-none min-h-37.5 px-0 py-2;
 }
 
 /* Typography */
@@ -125,7 +125,7 @@
 }
 
 .zenith-editor-content .zenith-image.ProseMirror-selectednode {
-  @apply ring-2 ring-blue-500 ring-opacity-50;
+  @apply ring-2 ring-blue-500/50;
 }
 
 /* Code Blocks */
@@ -201,7 +201,7 @@
 
 /* Focus styles */
 .zenith-editor-container:focus-within {
-  @apply ring-2 ring-blue-500 ring-opacity-50 border-blue-300;
+  @apply ring-2 ring-blue-500/50 border-blue-300;
 }
 
 /* Selection styles */
@@ -279,7 +279,7 @@
 }
 
 .zenith-image-resize-container.selected {
-  @apply ring-2 ring-blue-500 ring-opacity-50;
+  @apply ring-2 ring-blue-500/50;
 }
 
 .zenith-image-resize-container .resize-handle {

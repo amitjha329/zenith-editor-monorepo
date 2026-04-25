@@ -63,6 +63,8 @@ Root tsconfig.json:
 ```
 The root alias lets the IDE resolve `zenith-editor` to source during development, but the demo's runtime always uses the built `dist/` artifacts.
 
+**Important**: Do NOT add a wildcard alias `"zenith-editor/*"`. Sub-path imports like `zenith-editor/styles` must resolve via the package.json `exports` map (to `dist/styles.css`), not via tsconfig paths. Turbopack in Next.js Server Components does not propagate CSS side-effects from TS modules resolved via tsconfig wildcards.
+
 ## Package Exports (packages/zenith-editor)
 
 ### package.json "exports" field:
